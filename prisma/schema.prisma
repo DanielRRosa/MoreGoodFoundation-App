@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+model User {
+  id            String    @id @default(uuid()) @map("_id")
+  provider      String?
+  email         String    @unique
+  emailVerified Boolean?
+  image         String?
+  username      String?   @unique
+  firstName     String?
+  lastName      String?
+  fullName      String?
+  createdAt     DateTime  @default(now())
+  role          Role      @unique @default(member)
+  team          Team?     @relation(fields: [teamId], references: [id])
+  teamId        String?
+  Project       Project?  @relation(fields: [projectId], references: [id])
+  projectId     String?
+  Account       Account[]
+  Session       Session[]
+}
+
+enum Role {
+  member
+  supervisor
+  admin
+  master
+}
+
+model Account {
+  id                String  @id @default(uuid()) @map("_id")
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid()) @map("_id")
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id         String   @id @default(uuid()) @map("_id")
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Team {
+  id    String @id @default(uuid()) @map("_id")
+  name  String
+  users User[]
+}
+
+model Project {
+  id        String      @id @default(uuid()) @map("_id")
+  name      String
+  users     User[]
+  timedTask timedTask[]
+}
+
+model Status {
+  id        String      @id @default(uuid()) @map("_id")
+  name      String      @unique
+  createdAt DateTime    @default(now())
+  timedTask timedTask[]
+}
+
+model timedTask {
+  id        String   @id @default(uuid()) @map("_id")
+  name      String
+  status    Status?  @relation(fields: [statusId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  statusId  String
+  projectId String
+}

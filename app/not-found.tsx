@@ -1,0 +1,22 @@
+import { auth } from "@/next-auth/auth";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+export default async function NotFound() {
+  const session = await auth();
+  return (
+    <div className="w-[100vw] h-[100vh]">
+      <h1>Not Found</h1>
+      <p>Could not find requested resource</p>
+      {session?.user ? (
+        <Button asChild>
+          <Link href="/dashboard">Return to Dashboard</Link>
+        </Button>
+      ) : (
+        <Button asChild>
+          <Link href="/dashboard">Return to Login</Link>
+        </Button>
+      )}
+    </div>
+  );
+}
