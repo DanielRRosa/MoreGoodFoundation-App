@@ -41,7 +41,7 @@ export const TimeEntriesList = () => {
         return (
           <div
             key={date}
-            className="rounded-lg border p-4 shadow-[-2px_5px_20px_0px_#0000001A] dark:bg-gray-0"
+            className="rounded-lg border p-4 shadow-[-2px_5px_20px_0px_#0000001A] border-blue-500 dark:bg-gray-0"
           >
             <DayHeader
               date={date}
