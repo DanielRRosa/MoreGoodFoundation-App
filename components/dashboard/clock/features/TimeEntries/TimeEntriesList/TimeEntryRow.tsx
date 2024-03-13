@@ -38,7 +38,7 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
   return (
     <>
       <div
-        className="flex flex-row items-center dark:text-white"
+        className="flex flex-row items-center dark:text-white bg-gray-100 dark:bg-gray-900"
         aria-label="Time entry child row"
       >
         <div className="max-w-[350px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-neutral-800 dark:text-white">

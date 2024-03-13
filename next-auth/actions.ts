@@ -6,7 +6,7 @@ import { Profile, User } from "next-auth";
 
 export const validateUser = async (profile: Profile) => {
   console.log("Validate User", profile);
-  return true
+  return true // Retirar no fim do projeto
   if (!profile.email?.endsWith("moregoodfoundation.org")) {
     const uniqueUser = await getUserThat({
       email: profile.email as string,
