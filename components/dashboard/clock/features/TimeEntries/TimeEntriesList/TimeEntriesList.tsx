@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { useAppSelector } from "../../../hooks";
@@ -41,7 +41,7 @@ export const TimeEntriesList = () => {
         return (
           <div
             key={date}
-            className="rounded-lg border p-4 shadow-[-2px_5px_20px_0px_#0000001A]"
+            className="rounded-lg border p-4 shadow-[-2px_5px_20px_0px_#0000001A] dark:bg-gray-0"
           >
             <DayHeader
               date={date}
@@ -83,18 +83,18 @@ function DayHeader({
   if (isAdjustableTimeReportingEnabled) {
     return (
       <div className="flex items-center">
-        <span className="mr-2 text-lg font-semibold text-neutral-700">
+        <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200">
           {date}
         </span>
-        <span className="mr-2 text-lg font-semibold text-neutral-700 opacity-50">
+        <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
           {formatElapsedTime(elapsedTimePerDay)}
         </span>
 
         <div className="flex items-center text-xs font-semibold">
-          <span className="rounded rounded-r-none border border-neutral-500 bg-neutral-500 pl-2 pr-1 text-white">
+          <span className="rounded rounded-r-none border border-neutral-500 bg-neutral-500 dark:bg-gray-600 pl-2 pr-1 text-white">
             Logged
           </span>
-          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 pl-1 pr-2  text-neutral-700 opacity-50">
+          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 dark:bg-gray-700 pl-1 pr-2  text-neutral-700 dark:text-neutral-200 opacity-50">
             {formatElapsedTime(reportedTimePerDay)}
           </span>
         </div>
@@ -103,9 +103,9 @@ function DayHeader({
   } else {
     return (
       <div>
-        <span className="text-lg font-semibold text-neutral-700">{date}</span>{" "}
+        <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-100">{date}</span>{" "}
         &nbsp;
-        <span className="text-lg font-semibold text-neutral-700 opacity-50">
+        <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
           {formatElapsedTime(elapsedTimePerDay)}
         </span>
       </div>

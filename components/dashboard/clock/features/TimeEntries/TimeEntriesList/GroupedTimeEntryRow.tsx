@@ -47,7 +47,7 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
     useLoggedCheckbox(groupedTimeEntry);
 
   return (
-    <div className="shadow-[0px_20px_1px_-20px_black] last:shadow-none">
+    <div className="shadow-[0px_20px_1px_-20px_black] dark:bg-gray-00 last:shadow-none">
       <div
         className="flex flex-row items-center"
         aria-label="Grouped entry row"
@@ -92,7 +92,7 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
               </div>
             </div>
           ) : (
-            <div className="w-[65px] text-center text-sm font-medium text-neutral-800 opacity-60">
+            <div className="w-[65px] text-center text-sm font-medium text-neutral-800 opacity-60 dark:text-white">
               {formatElapsedTime(groupedTimeEntry.elapsedTime)}
             </div>
           )}
@@ -161,7 +161,7 @@ function SubEntriesCount({
   return (
     <div
       onClick={onClick}
-      className="mr-2 flex h-6 w-6 shrink-0 select-none items-center justify-center rounded border border-neutral-300 bg-neutral-100 text-xs font-medium hover:cursor-pointer hover:bg-neutral-200"
+      className="mr-2 flex h-6 w-6 shrink-0 select-none items-center justify-center rounded border border-neutral-300 bg-neutral-100 text-xs font-medium hover:cursor-pointer hover:bg-neutral-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
     >
       {groupedTimeEntry.ids.length}
     </div>

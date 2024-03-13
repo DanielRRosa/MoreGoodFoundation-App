@@ -61,7 +61,7 @@ export const TimeReportingDialog = ({
     <Dialog open={isVisible} onOpenChange={setIsVisible}>
       <DialogContent>
         <>
-          <DialogTitle>Time Reporting</DialogTitle>
+          <DialogTitle className="dark:text-white">Time Reporting</DialogTitle>
           <div className="mb-2 flex max-w-[600px] overflow-hidden">
             <TimeEntryText timeEntryText={groupedTimeEntry.text} />
           </div>
@@ -109,10 +109,10 @@ export const TimeReportingDialog = ({
             </div>
           ))}
 
-          <hr />
+          <hr className="border-neutral-300 dark:border-neutral-700" />
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="flex items-start justify-start pb-2 font-semibold text-neutral-800 sm:justify-end sm:pb-0 sm:pr-2">
+            <div className="flex items-start justify-start pb-2 font-semibold text-neutral-800 sm:justify-end sm:pb-0 sm:pr-2 dark:text-white">
               Combined:
             </div>
             <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export const TimeReportingDialog = ({
               />
               <div className="flex flex-col">
                 <button
-                  className="flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg rounded-b-none border border-b-0 border-neutral-300 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                  className="flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg rounded-b-none border border-b-0 border-neutral-300 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white"
                   onClick={handleIncreaseTime}
                 >
                   <span className="flex justify-center text-sm">
@@ -143,7 +143,7 @@ export const TimeReportingDialog = ({
                   30 min
                 </button>
                 <button
-                  className="flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg rounded-t-none border border-neutral-300 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-700 hover:bg-neutral-100  hover:text-neutral-900"
+                  className="flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg rounded-t-none border border-neutral-300 bg-neutral-50 px-3 py-1 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white"
                   onClick={handleDecreaseTime}
                 >
                   <span className="flex justify-center text-sm">

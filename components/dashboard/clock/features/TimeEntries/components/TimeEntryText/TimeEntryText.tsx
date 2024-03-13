@@ -46,7 +46,7 @@ export const TimeEntryText: React.FC<{ timeEntryText: string }> = ({
 
   return (
     <div
-      className="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-neutral-800"
+      className="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-neutral-800 dark:text-white"
       title={timeEntryText}
     >
       {timeEntryTextWithLinks}
