@@ -49,7 +49,7 @@ const LoginPage = () => {
         <Greating.Title className="text-center" />
         <Greating.Message
           className="text-center"
-          message="Welcome to More Good Foundation Global App"
+          message="Welcome to More Good Foundation Global"
         />
       </Greating>
 
@@ -61,7 +61,7 @@ const LoginPage = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral-500 rounded-md focus:border-neutral-200">
+                  <FormControl className="min-w-full border border-neutral-500 rounded-full focus:border-neutral-200">
                     <Input
                       {...field}
                       className="placeholder:capitalize"
@@ -79,7 +79,7 @@ const LoginPage = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral-500 rounded-md flex flex-row flex-nowrap items-center focus:border-neutral-200">
+                  <FormControl className="min-w-full border border-neutral-500 rounded-full flex flex-row flex-nowrap items-center focus:border-neutral-200">
                     <Input
                       {...field}
                       className="placeholder:capitalize"
@@ -96,7 +96,7 @@ const LoginPage = () => {
           <Button
             type="submit"
             disabled={showSubmitted}
-            className="w-full flex items-center gap-4"
+            className="w-full flex items-center gap-4 rounded-full bg-blue-600 dark:bg-white"
           >
             {showSubmitted && <Loader2 className="animate-spin size-4" />}
             {showSubmitted ? "Login in..." : "Login"}

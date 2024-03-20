@@ -23,11 +23,11 @@ const Greating = ({ children }: GreatingProps) => {
 // Children Components
 function Title({
   user,
-  className,
+  className="",
   defaultMessage = "Welcome Back!",
 }: GreatingMessageProps) {
   return (
-    <h2 className={cn("text-3xl font-bold capitalize antialiased", className)}>
+    <h2 className={cn("text-3xl font-bold capitalize antialiased text-blue-600 dark:text-white", className)}>
       {!user ? `${defaultMessage}` : `Welcome, ${user}!`}
     </h2>
   );
