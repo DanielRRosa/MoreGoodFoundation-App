@@ -30,6 +30,7 @@ export const NewTimeEntry = () => {
             value={text}
             onChange={(e) => setText(e.target.value)}
             aria-label="new entry text"
+            placeholder="What are you working on?"
           />
         </div>
         <div className=" text-green-400">
