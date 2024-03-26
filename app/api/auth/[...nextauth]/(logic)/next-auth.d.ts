@@ -17,4 +17,8 @@ declare module "next-auth" {
     teamId: string | string[] | null;
     projectId: string | string[] | null;
   }
+
+  interface Session extends DefaultSession {
+    user: User;
+  }
 }

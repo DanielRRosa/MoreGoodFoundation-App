@@ -1,14 +1,13 @@
 import {
   getAllAdminUsers,
-  getUserThat,
+  getUserThatRole,
 } from "@/components/database/user/user.actions";
 import { Profile, User } from "next-auth";
 
 export const validateUser = async (profile: Profile) => {
   console.log("Validate User", profile);
-  return true // Retirar no fim do projeto
   if (!profile.email?.endsWith("moregoodfoundation.org")) {
-    const uniqueUser = await getUserThat({
+    const uniqueUser = await getUserThatRole({
       email: profile.email as string,
       role: "admin",
     });

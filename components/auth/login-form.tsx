@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { login } from "@/app/auth/actions";
 
@@ -20,27 +20,25 @@ import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 
 const LoginPage = () => {
-  const [showSubmitted, setShowSubmitted] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
 
-  const FormSchema = z.object({
+  const LoginSchema = z.object({
     email: z.string().email("Email is required"),
     password: z.string().min(1, "Password is required"),
   });
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    const time = setInterval(() => {
-      setShowSubmitted(true);
-    }, 1000);
-    login(values);
-    clearInterval(time);
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    startTransition(() => {
+      login(values);
+    });
   };
 
   return (
@@ -67,7 +65,7 @@ const LoginPage = () => {
                       className="placeholder:capitalize"
                       placeholder={field.name}
                       type="email"
-                      disabled={showSubmitted}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -85,7 +83,7 @@ const LoginPage = () => {
                       className="placeholder:capitalize"
                       placeholder={field.name}
                       type="password"
-                      disabled={showSubmitted}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -95,11 +93,11 @@ const LoginPage = () => {
           </div>
           <Button
             type="submit"
-            disabled={showSubmitted}
+            disabled={isPending}
             className="w-full flex items-center gap-4 rounded-full bg-blue-600 dark:bg-white"
           >
-            {showSubmitted && <Loader2 className="animate-spin size-4" />}
-            {showSubmitted ? "Login in..." : "Login"}
+            {isPending && <Loader2 className="animate-spin size-4" />}
+            {isPending ? "Login in..." : "Login"}
           </Button>
         </form>
       </Form>
@@ -115,8 +113,8 @@ const LoginPage = () => {
       </div>
       <Button
         variant="outline"
-        disabled={showSubmitted}
-        className="w-full flex items-center gap-4"
+        disabled={isPending}
+        className="w-full flex items-center gap-4 rounded-full"
         onClick={() => signIn("google")}
       >
         <GoogleIcon />

@@ -10,7 +10,7 @@ import {
 import { Command } from "@/components/ui/command";
 import NotificationContent from "./notifications-content";
 
-const NotificationIcon = () => {
+const NotificationButton = () => {
   return (
     <Popover>
       <PopoverTrigger className="cursor-pointer" asChild>
@@ -28,4 +28,4 @@ const NotificationIcon = () => {
   );
 };
 
-export default NotificationIcon;
+export default NotificationButton;

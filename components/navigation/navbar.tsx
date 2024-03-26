@@ -1,7 +1,7 @@
 import { ThemeToggle } from "../theme/theme-toggle";
 import UserImage from "./user-image";
 import Logo from "./logo";
-import NotificationIcon from "./notification-icon";
+import NotificationButton from "./notifications/notification-button-trigger";
 
 const Navbar = () => {
   return (
@@ -12,7 +12,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4">
         <ThemeToggle />
-        <NotificationIcon />
+        <NotificationButton />
         <UserImage />
       </div>
     </div>

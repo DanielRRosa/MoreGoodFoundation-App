@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "email dev --port 8080"
+    "email": "email dev"
   },
   "dependencies": {
     "@auth/core": "^0.28.0",
@@ -15,7 +15,8 @@
     "@emotion/css": "^11.11.2",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.4",
-    "@prisma/client": "^5.10.2",
+    "@prisma/client": "^5.11.0",
+    "@prisma/extension-accelerate": "^1.0.0",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -38,7 +39,7 @@
     "react": "^18.2.0",
     "react-datepicker": "^6.3.0",
     "react-dom": "^18.2.0",
-    "react-email": "2.1.0",
+    "react-email": "1.10.1",
     "react-hook-form": "^7.50.1",
     "react-redux": "^9.1.0",
     "resend": "^3.2.0",
