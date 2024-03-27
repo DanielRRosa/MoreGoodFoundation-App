@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { auth } from "@/next-auth/auth";
+import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
 import { redirect } from "next/navigation";
 
 const Dashboard = async ({

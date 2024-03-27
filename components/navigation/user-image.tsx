@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
 function UserImage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const userFullName = `${session?.user?.firstName} ${session?.user?.lastName}`;
 
   const userSettingsLinks = [

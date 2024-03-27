@@ -1,6 +1,6 @@
-import { auth } from "@/next-auth/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
 
 export default async function NotFound() {
   const session = await auth();

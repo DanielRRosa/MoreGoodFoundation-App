@@ -1,13 +1,8 @@
-import NextAuth from "next-auth";
-import type { NextAuthConfig, Profile, Session } from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@/components/database/prisma-database";
-import { validateUser } from "./actions";
-
-// Providers
 import Google from "next-auth/providers/google";
 import type { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import type { NextAuthConfig } from "next-auth";
 
 const credentialsConfig = CredentialsProvider({
   name: "Credentials",
@@ -46,9 +41,7 @@ const credentialsConfig = CredentialsProvider({
   // },
 });
 
-export const authConfig = {
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "database" },
+export default {
   providers: [
     Google({
       profile(profile: GoogleProfile) {
@@ -69,7 +62,7 @@ export const authConfig = {
           image: profile.picture as string,
 
           // User type information
-          role: "member",
+          role: profile.role ?? "member",
         };
       },
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -78,25 +71,4 @@ export const authConfig = {
     }),
     credentialsConfig,
   ],
-  pages: {
-    signIn: "/auth/login",
-    error: "/auth/unauthorized",
-  },
-  callbacks: {
-    async signIn({ profile }: { profile: Profile }) {
-      const isValid = await validateUser(profile);
-
-      if (isValid) {
-        return true;
-      }
-      return false;
-    },
-
-    async session({ session }: { session: Session }) {
-      return session;
-    },
-  },
-  debug: true,
 } satisfies NextAuthConfig;
-
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
