@@ -21,7 +21,7 @@ export const NewTimeEntry = () => {
   useKeyPress(handleAddClick, ["Enter"], ref);
 
   return (
-    <div className="rounded-full border border-blue-500 transition-none min-h-[48px]">
+    <div className="rounded-md border border-blue-500 transition-none min-h-[48px]">
       <div className="flex items-center p-1 gap-4" ref={ref}>
         <div className="flex-grow">
           <input

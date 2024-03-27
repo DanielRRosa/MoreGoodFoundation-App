@@ -1,15 +1,15 @@
-"use client";
 import { useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { useAppSelector } from "../../../hooks";
 import { formatElapsedTime } from "../../../utils";
-import { GroupedTimeEntryRow } from "./GroupedTimeEntryRow";
 import {
   selectTimeEntriesGroupedByDate,
   selectTimeEntriesCount,
 } from "../store";
 import { Button } from "../../../ui/Button";
 import { RootState } from "../../../store/store";
+import { format, isToday, isYesterday, startOfMonth, endOfMonth } from 'date-fns'; // Importando funções do date-fns
+import { GroupedTimeEntryRow } from "./GroupedTimeEntryRow";
 
 const TIME_ENTRIES_LIMIT = 50;
 
@@ -27,8 +27,18 @@ export const TimeEntriesList = () => {
     return <EmptyState />;
   }
 
+  // Calculando o total do mês
+  const totalMonth = calculateTotalMonth(sortedTimeEntries);
+
   return (
     <div className="mt-4 flex flex-col space-y-6">
+      {/* Exibindo o total do mês */}
+      <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
+        <span className="mr-2">Month's Total:</span>
+        <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">{formatElapsedTime(totalMonth)}</span>
+      </div>
+
+
       {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
         const [elapsedTimePerDay, reportedTimePerDay] =
           groupedTimeEntriesPerDate.reduce(
@@ -38,18 +48,16 @@ export const TimeEntriesList = () => {
             ],
             [0, 0],
           );
+
         return (
-          <div
-            key={date}
-            className="rounded-lg border p-4 shadow-[-2px_5px_20px_0px_#0000001A] border-blue-500 dark:bg-gray-0"
-          >
+          <div key={date}>
             <DayHeader
               date={date}
               elapsedTimePerDay={elapsedTimePerDay}
               reportedTimePerDay={reportedTimePerDay}
             />
             {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-              <GroupedTimeEntryRow
+              <TimeEntryCard
                 groupedTimeEntry={groupedTimeEntries}
                 key={groupedTimeEntries.text}
               />
@@ -66,6 +74,18 @@ export const TimeEntriesList = () => {
   );
 };
 
+function calculateTotalMonth(sortedTimeEntries: [string, any[]][]) {
+  let totalMonth = 0;
+
+  sortedTimeEntries.forEach(([_, groupedTimeEntriesPerDate]) => {
+    groupedTimeEntriesPerDate.forEach((groupedTimeEntries) => {
+      totalMonth += groupedTimeEntries.elapsedTime;
+    });
+  });
+
+  return totalMonth;
+}
+
 function DayHeader({
   date,
   elapsedTimePerDay,
@@ -75,41 +95,37 @@ function DayHeader({
   elapsedTimePerDay: number;
   reportedTimePerDay: number;
 }) {
-  const isAdjustableTimeReportingEnabled = useAppSelector(
-    (state: RootState) =>
-      state.settings.featureFlags.isAdjustableTimeReportingEnabled,
+  const formattedDate = formatDate(date);
+
+  return (
+    <div className="mb-4">
+      <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">
+        {formattedDate}
+      </span>
+      <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
+        {formatElapsedTime(elapsedTimePerDay)}
+      </span>
+    </div>
   );
+}
 
-  if (isAdjustableTimeReportingEnabled) {
-    return (
-      <div className="flex items-center">
-        <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200">
-          {date}
-        </span>
-        <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
-          {formatElapsedTime(elapsedTimePerDay)}
-        </span>
+function TimeEntryCard({ groupedTimeEntry }: { groupedTimeEntry: any }) {
+  return (
+    <div className="rounded-lg mb-2 border p-4 shadow-[-2px_5px_20px_0px_#0000001A] border-blue-500 dark:bg-gray-0 ">
+      <GroupedTimeEntryRow groupedTimeEntry={groupedTimeEntry} />
+    </div>
+  );
+}
 
-        <div className="flex items-center text-xs font-semibold">
-          <span className="rounded rounded-r-none border border-neutral-500 bg-neutral-500 dark:bg-gray-600 pl-2 pr-1 text-white">
-            Logged
-          </span>
-          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 dark:bg-gray-700 pl-1 pr-2  text-neutral-700 dark:text-neutral-200 opacity-50">
-            {formatElapsedTime(reportedTimePerDay)}
-          </span>
-        </div>
-      </div>
-    );
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+
+  if (isToday(date)) {
+    return 'Today: ';
+  } else if (isYesterday(date)) {
+    return 'Yesterday: ';
   } else {
-    return (
-      <div>
-        <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-100">{date}</span>{" "}
-        &nbsp;
-        <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
-          {formatElapsedTime(elapsedTimePerDay)}
-        </span>
-      </div>
-    );
+    return format(date, 'MMMM dd: '); // Formato personalizado: mês completo e dia
   }
 }
 

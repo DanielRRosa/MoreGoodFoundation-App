@@ -109,8 +109,7 @@ function RemoveEntryDialog({
           {formatDatetime(timeEntry.stopTime!)}.
           {timeEntry.logged && "This entry was already logged!"}
         </DialogHeader>
-      </DialogContent>
-      <div className="mx-6 mb-6 flex flex-row justify-end gap-[10px] pt-[10px]">
+        <div className="mx-6 mb-6 flex flex-row justify-end gap-[10px] pt-[10px]">
         <Button onClick={() => setRemoveDialogOpen(false)} variant="outline">
           Cancel
         </Button>
@@ -118,6 +117,7 @@ function RemoveEntryDialog({
           Remove
         </Button>
       </div>
+      </DialogContent>
     </Dialog>
   );
 }
