@@ -8,9 +8,11 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex justify-between h-[100vh] w-[100vw]">
-      <div className="flex justify-center items-center w-[65%] bg-blue-600">
-        <a className= "text-7xl font-bold text-white dark:text-black mr-5">MGF</a> 
-        <a className= "text-7xl text-white dark:text-black" >Global</a>
+      <div className="flex justify-center items-center w-[65%] bg-primary">
+        <a className="text-7xl font-bold text-white dark:text-black mr-5">
+          MGF
+        </a>
+        <a className="text-7xl text-white dark:text-black">Global</a>
       </div>
       <main className="flex flex-col justify-between h-[100vh] w-[35%] p-8 ">
         <div className="flex flex-row justify-between">

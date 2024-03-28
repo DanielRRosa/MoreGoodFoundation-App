@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
+import { useTransition, useState } from "react";
 import { signIn } from "next-auth/react";
 import { login } from "@/app/auth/actions";
 
@@ -59,7 +59,7 @@ const LoginPage = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral-500 rounded-full focus:border-neutral-200">
+                  <FormControl className="min-w-full border border-neutral rounded-full transition-all focus:border-primary">
                     <Input
                       {...field}
                       className="placeholder:capitalize"
@@ -77,7 +77,7 @@ const LoginPage = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral-500 rounded-full flex flex-row flex-nowrap items-center focus:border-neutral-200">
+                  <FormControl className="min-w-full border border-neutral rounded-full transition-all focus:border-primary">
                     <Input
                       {...field}
                       className="placeholder:capitalize"

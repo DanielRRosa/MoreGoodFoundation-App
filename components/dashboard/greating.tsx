@@ -23,24 +23,36 @@ const Greating = ({ children }: GreatingProps) => {
 // Children Components
 function Title({
   user,
-  className="",
+  className = "",
   defaultMessage = "Welcome Back!",
 }: GreatingMessageProps) {
   return (
-    <h2 className={cn("text-3xl font-bold capitalize antialiased text-blue-600 dark:text-white", className)}>
+    <h2
+      className={cn(
+        "text-3xl font-bold capitalize antialiased text-primary dark:text-white",
+        className
+      )}
+    >
       {!user ? `${defaultMessage}` : `Welcome, ${user}!`}
     </h2>
   );
 }
 
-function Message({
-  message,
-  className,
-  defaultMessage = "Default message",
-}: GreatingMessageProps) {
+function Message({ message, className }: GreatingMessageProps) {
+  const options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  const defaultMessage = new Date().toLocaleDateString(
+    "en-EN",
+    options as object
+  );
+
   return (
     <p className={cn("text-s antialiased", className)}>
-      {!message ? (defaultMessage as string) : (message as string)}
+      {!message ? defaultMessage : (message as string)}
     </p>
   );
 }

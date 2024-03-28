@@ -1,8 +1,7 @@
 "use client";
-import { Square } from "lucide-react";
+import { Square, Plus } from "lucide-react";
 import { formatElapsedTime } from "../../../utils";
 import { useState, useEffect, useRef } from "react";
-import React from "react";
 import { useAppDispatch } from "../../../hooks";
 import { TimeEntryEdit } from "../components/TimeEntryEdit";
 import { TimeEntryText } from "../components/TimeEntryText";
@@ -26,36 +25,33 @@ export const CurrentTimeEntry: React.FC<CurrentTimeEntryProps> = ({
   };
 
   return (
-    <div
-      className={`rounded-full border border-blue-500 min-h-[48px] ${
-        isEditVisible
-          ? "shadow-lg transition-all duration-200"
-          : "border-transparent transition-none"
-      }`}
-    >
-      <div className="flex items-center p-1 gap-4">
-        <div className="w-full">
+    <div className="rounded-full border border-neutral min-h-[48px]">
+      <div className="full-flex p-1 gap-4">
+        <div className="full-flex w-fit px-4">
+          <div className="flex justify-center items-center border border-neutral rounded-full w-[30px] h-[30px]">
+            <Plus className="size-5" />
+          </div>
           <TimeEntryText timeEntryText={currentTimeEntry.text} />
         </div>
         <div className="flex flex-row items-center justify-center gap-4">
           <main
             onClick={() => setIsEditVisible((state) => !state)}
-            className="w-[68px]"
             aria-label="elapsed time"
           >
-            <span>{formatElapsedTime(elapsedTime)}</span>
+            <span className="flex justify-end text-lg text-right font-bold w-24">
+              {formatElapsedTime(elapsedTime)}
+            </span>
           </main>
-          <div className=" text-red-300">
-            <Button
-              className="rounded-full"
-              onClick={handleOnStopClick}
-              size="icon"
-              color="inherit"
-              aria-label="stop timer"
-            >
-              <Square className="size-5" />
-            </Button>
-          </div>
+          <Button
+            className="rounded-full min-h-[60px] min-w-[60px]"
+            onClick={handleOnStopClick}
+            size="icon"
+            variant="destructive"
+            aria-label="stop timer"
+          >
+            <p className="sr-only">Stop Watch</p>
+            <Square className="size-5" />
+          </Button>
         </div>
       </div>
       {isEditVisible && (

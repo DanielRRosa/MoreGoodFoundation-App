@@ -1,9 +1,9 @@
 import { TimeEntriesList } from "@/components/dashboard/clock/features/TimeEntries/TimeEntriesList";
 import { TopBar } from "@/components/dashboard/clock/features/TimeEntries/TopBar";
 import { Greating } from "@/components/dashboard/greating";
-import { ProjectSelectFilter } from "@/components/dashboard/project-select-filter";
-import { SearchFilter } from "@/components/dashboard/search-filter";
-import { StatusSelectFilter } from "@/components/dashboard/status-select-filter";
+import { ProjectSelectFilter } from "@/components/dashboard/search/project-select-filter";
+import { SearchFilter } from "@/components/dashboard/search/search-filter";
+import { StatusSelectFilter } from "@/components/dashboard/search/status-select-filter";
 import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
 
 const MemberDashboard = async () => {

@@ -34,7 +34,7 @@ function UserImage() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex flex-nowrap flex-row items-center gap-4 border border-neutral-200 rounded-full pl-1 pr-4 min-h-[50px] min-w-[200px]"
+                className="flex flex-nowrap flex-row items-center gap-4 border border-neutral rounded-full pl-1 pr-4 min-h-[50px] min-w-[200px]"
               >
                 <Image
                   className="rounded-full"
@@ -90,7 +90,7 @@ function UserImage() {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <div className="animate-pulse flex flex-nowrap flex-row items-center gap-4 border border-neutral-200 rounded-full pl-1 pr-4 min-h-[50px] min-w-[200px]">
+          <div className="animate-pulse flex flex-nowrap flex-row items-center gap-4 border border-neutral rounded-full pl-1 pr-4 min-h-[50px] min-w-[200px]">
             <div className="rounded-full bg-slate-200 min-h-[40px] min-w-[40px]"></div>
             <div className="w-full flex flex-col gap-2">
               <div className="rounded-full bg-slate-200 h-2 w-full"></div>

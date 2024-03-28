@@ -1,11 +1,13 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Play, Plus } from "lucide-react";
 import { useRef, useState } from "react";
 import { useKeyPress } from "../../../hooks/useKeyPress";
 import { timeEntryAdded } from "../store";
 import { useAppDispatch } from "../../../hooks";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { formatElapsedTime } from "../../../utils";
 
 export const NewTimeEntry = () => {
   const ref = useRef(null);
@@ -21,30 +23,46 @@ export const NewTimeEntry = () => {
   useKeyPress(handleAddClick, ["Enter"], ref);
 
   return (
-    <div className="rounded-md border border-blue-500 transition-none min-h-[48px]">
-      <div className="flex items-center p-1 gap-4" ref={ref}>
-        <div className="flex-grow">
-          <input
+    <div
+      className={`${
+        text === "" ? "border-neutral" : "border-primary"
+      } border rounded-full hover:border-neutral-400 transition-all duration-300`}
+    >
+      <div className="full-flex p-1" ref={ref}>
+        <div className="full-flex px-4">
+          <div className="flex items-center justify-center border border-neutral rounded-full min-w-[30px] min-h-[30px]">
+            <Plus className="size-5" />
+          </div>
+          <Input
             className="w-full rounded-lg px-3 py-2 text-base bg-transparent focus:outline-none"
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             aria-label="new entry text"
-            placeholder="What are you working on?"
+            placeholder="What are you working on today?"
           />
         </div>
-        <div className=" text-green-400">
-          <Button
-            className="rounded-full"
-            onClick={handleAddClick}
-            size="icon"
-            color="inherit"
-            aria-label="add entry"
-            disabled={text === ""}
-          >
-            <Plus />
-          </Button>
-        </div>
+
+        <span
+          className={`${
+            text === "" ? "opacity-60" : ""
+          } flex justify-end text-lg text-right font-bold w-24`}
+        >
+          {formatElapsedTime(0)}
+        </span>
+
+        <Button
+          className="rounded-full min-h-[60px] min-w-[60px]"
+          onClick={handleAddClick}
+          size="icon"
+          variant="default"
+          aria-label="Add entry"
+          title="Add Entry"
+          disabled={text === ""}
+        >
+          <p className="sr-only">Start time tracker</p>
+          <Play />
+        </Button>
       </div>
     </div>
   );

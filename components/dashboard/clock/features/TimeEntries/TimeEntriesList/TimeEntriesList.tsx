@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { useAppSelector } from "../../../hooks";
@@ -6,9 +8,15 @@ import {
   selectTimeEntriesGroupedByDate,
   selectTimeEntriesCount,
 } from "../store";
-import { Button } from "../../../ui/Button";
+import { Button } from "@/components/ui/button";
 import { RootState } from "../../../store/store";
-import { format, isToday, isYesterday, startOfMonth, endOfMonth } from 'date-fns'; // Importando funções do date-fns
+import {
+  format,
+  isToday,
+  isYesterday,
+  startOfMonth,
+  endOfMonth,
+} from "date-fns"; // Importando funções do date-fns
 import { GroupedTimeEntryRow } from "./GroupedTimeEntryRow";
 
 const TIME_ENTRIES_LIMIT = 50;
@@ -16,11 +24,11 @@ const TIME_ENTRIES_LIMIT = 50;
 export const TimeEntriesList = () => {
   const [timeEntriesLimit, setTimeEntriesLimit] = useState(TIME_ENTRIES_LIMIT);
   const groupedTimeEntries = useAppSelector((state) =>
-    selectTimeEntriesGroupedByDate(state, timeEntriesLimit),
+    selectTimeEntriesGroupedByDate(state, timeEntriesLimit)
   );
 
   const sortedTimeEntries = Array.from(groupedTimeEntries.entries()).sort(
-    (a, b) => (a[0] > b[0] ? -1 : 1),
+    (a, b) => (a[0] > b[0] ? -1 : 1)
   );
 
   if (sortedTimeEntries.length === 0) {
@@ -35,9 +43,10 @@ export const TimeEntriesList = () => {
       {/* Exibindo o total do mês */}
       <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
         <span className="mr-2">Month's Total:</span>
-        <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">{formatElapsedTime(totalMonth)}</span>
+        <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">
+          {formatElapsedTime(totalMonth)}
+        </span>
       </div>
-
 
       {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
         const [elapsedTimePerDay, reportedTimePerDay] =
@@ -46,7 +55,7 @@ export const TimeEntriesList = () => {
               acc[0] + groupedTimeEntries.elapsedTime,
               acc[1] + groupedTimeEntries.loggedTime,
             ],
-            [0, 0],
+            [0, 0]
           );
 
         return (
@@ -121,11 +130,11 @@ function formatDate(dateString: string): string {
   const date = new Date(dateString);
 
   if (isToday(date)) {
-    return 'Today: ';
+    return "Today: ";
   } else if (isYesterday(date)) {
-    return 'Yesterday: ';
+    return "Yesterday: ";
   } else {
-    return format(date, 'MMMM dd: '); // Formato personalizado: mês completo e dia
+    return format(date, "MMMM dd: "); // Formato personalizado: mês completo e dia
   }
 }
 

@@ -110,13 +110,16 @@ function RemoveEntryDialog({
           {timeEntry.logged && "This entry was already logged!"}
         </DialogHeader>
         <div className="mx-6 mb-6 flex flex-row justify-end gap-[10px] pt-[10px]">
-        <Button onClick={() => setRemoveDialogOpen(false)} variant="outline">
-          Cancel
-        </Button>
-        <Button onClick={handleRemoveEntry} aria-label="Confirm entry romoval">
-          Remove
-        </Button>
-      </div>
+          <Button onClick={() => setRemoveDialogOpen(false)} variant="outline">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleRemoveEntry}
+            aria-label="Confirm entry romoval"
+          >
+            Remove
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
