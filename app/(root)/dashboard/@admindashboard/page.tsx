@@ -5,7 +5,7 @@ import { ProjectSelectFilter } from "@/components/dashboard/search/project-selec
 import { SearchFilter } from "@/components/dashboard/search/search-filter";
 import { StatusSelectFilter } from "@/components/dashboard/search/status-select-filter";
 import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
-import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/MonthTotals";
+import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/month-totals";
 
 const AdminDashboard = async () => {
   const session = await auth();

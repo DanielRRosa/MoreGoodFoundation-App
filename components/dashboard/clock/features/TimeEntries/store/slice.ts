@@ -6,7 +6,6 @@ import {
 } from "@reduxjs/toolkit";
 import { clearAppState, loadBackup } from "../../../store/commonActions";
 import { generateId } from "../../../utils";
-import { timeEntriesFixture } from "./fixtures";
 
 export interface TimeEntry {
   id: string;
@@ -26,8 +25,6 @@ if (true) {
     ids: [],
     entities: {},
   };
-} else {
-  timeEntriesInitialState = timeEntriesFixture;
 }
 
 export const timeEntries = createSlice({
@@ -36,11 +33,11 @@ export const timeEntries = createSlice({
   reducers: {
     timeEntryAdded: (
       state,
-      action: PayloadAction<{ text: string; startTime: number }>,
+      action: PayloadAction<{ text: string; startTime: number }>
     ) => {
       // Stop currently running entry
       const currentTimeEntry = Object.values(state.entities).find(
-        (timeEntry) => timeEntry?.stopTime === undefined,
+        (timeEntry) => timeEntry?.stopTime === undefined
       );
       if (currentTimeEntry?.id) {
         state.entities[currentTimeEntry.id]!.stopTime = Date.now();
@@ -70,7 +67,7 @@ export const timeEntries = createSlice({
 
     timeEntriesLoggedStatusChanged: (
       state,
-      action: PayloadAction<string[]>,
+      action: PayloadAction<string[]>
     ) => {
       const ids = action.payload;
       ids.forEach((id) => {
@@ -87,7 +84,7 @@ export const timeEntries = createSlice({
           id: string;
           reportedTime: number;
         }[]
-      >,
+      >
     ) => {
       action.payload.forEach(({ id, reportedTime }) => {
         if (state.entities[id]) {

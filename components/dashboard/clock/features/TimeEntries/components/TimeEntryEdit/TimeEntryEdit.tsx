@@ -1,15 +1,16 @@
 "use client";
-import { Input } from "@/components/ui/input";
+
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { useDispatch } from "react-redux";
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import styles from "./datepicker.module.css";
 import { testId } from "../../../../testUtils/testId";
 import { TimeEntry, timeEntryUpdated } from "../../store";
-import { Button } from "../../../../ui/Button";
+import { Button } from "@/components/ui/button";
+import { formatElapsedTime } from "@/components/dashboard/clock/utils";
 
 interface TimeEntryEditProps {
   timeEntry: TimeEntry;
@@ -53,19 +54,18 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
   };
 
   return (
-    <div className="mb-2 mt-4">
-      <div className="flex flex-row gap-[10px]">
+    <div className="full-flex flex-grow items-center">
+      <div className="full-flex ">
         <Input
-          label="Current entry text"
+          placeholder={entryText}
           value={entryText}
           onChange={handleTextChange}
-          className="flex-grow"
+          className="border rounded-md"
         />
         <div data-testid={testId.startTime}>
           <DatePicker
-            className="border-gray_border rounded border hover:border-black focus:outline-blue-500"
+            className="rounded border "
             selected={new Date(startTimeValue)}
-            wrapperClassName={styles.date_picker}
             onChange={(date: Date) =>
               date && setStartTimeValue(date?.getTime())
             }
@@ -74,11 +74,11 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
             showTimeInput
           />
         </div>
+        -
         <div data-testid={testId.stopTime}>
           <DatePicker
-            className="border-gray_border rounded border hover:border-black focus:outline-blue-500"
+            className="rounded bg-transparent"
             disabled={!stopTimeValue}
-            wrapperClassName={styles.date_picker}
             selected={
               stopTimeValue ? new Date(stopTimeValue) : new Date(Date.now())
             }
@@ -89,11 +89,18 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
           />
         </div>
       </div>
-      <div className="flex flex-row justify-end gap-[10px] pt-[10px]">
+      <span>
+        {stopTimeValue
+          ? formatElapsedTime(stopTimeValue - startTimeValue)
+          : formatElapsedTime(0)}
+      </span>
+      <div className="flex flex-row justify-end gap-2">
         <Button variant="outline" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button onClick={handleSave}>Save</Button>
+        <Button variant="default" onClick={handleSave}>
+          Save
+        </Button>
       </div>
     </div>
   );
