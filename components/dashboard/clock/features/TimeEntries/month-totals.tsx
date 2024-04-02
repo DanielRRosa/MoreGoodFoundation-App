@@ -19,9 +19,9 @@ const TimeEntriesList = () => {
     (a, b) => (a[0] > b[0] ? -1 : 1)
   );
 
-  if (sortedTimeEntries.length === 0) {
-    return <EmptyState />;
-  }
+  // if (sortedTimeEntries.length === 0) {
+  //   return <EmptyState />;
+  // }
 
   // Calculando o total do mês
   const totalMonth = calculateTotalMonth(sortedTimeEntries);

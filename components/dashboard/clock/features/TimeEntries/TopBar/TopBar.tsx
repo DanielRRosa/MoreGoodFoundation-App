@@ -9,11 +9,9 @@ export const TopBar = () => {
 
   return (
     <div className="w-full">
-      {currentTimeEntry ? (
-        <CurrentTimeEntry currentTimeEntry={currentTimeEntry} />
-      ) : (
-        <NewTimeEntry />
-      )}
+      <div className="flex flex-col md:flex-row md:justify-between">
+        <div className="flex-1">{currentTimeEntry ? <CurrentTimeEntry currentTimeEntry={currentTimeEntry} /> : <NewTimeEntry />}</div>
+      </div>
     </div>
   );
 };

@@ -3,12 +3,11 @@ export const EmptyState = () => {
   return (
     <div className="flex flex-grow flex-col items-center justify-center px-8 py-4 text-neutral-800 ">
       <Illustration />
-      <h3 className="mt-10 text-lg font-medium">
+      <h3 className="mt-10 text-lg font-medium dark:text-white">
         Start by adding time entries
       </h3>
-      <p className="mt-2 text-center">
-        Type in task description at the top to add new entry. Jira task number
-        will be automatically changed to link.
+      <p className="mt-2 text-center dark:text-white">
+        Type in task description at the top to add new entry.
       </p>
     </div>
   );

@@ -94,7 +94,7 @@ const LoginPage = () => {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full flex items-center gap-4 rounded-full bg-blue-600 dark:bg-white"
+            className="w-full flex items-center gap-4 rounded-full bg-blue-600 dark:bg-white dark:text-blue-600"
           >
             {isPending && <Loader2 className="animate-spin size-4" />}
             {isPending ? "Login in..." : "Login"}

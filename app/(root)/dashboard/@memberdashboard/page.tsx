@@ -11,7 +11,7 @@ const MemberDashboard = async () => {
   const session = await auth();
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-[1fr_600px] gap-4 justify-between items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
         <Greating>
           <Greating.Title user={session?.user.firstName as string} />
           <Greating.Message />
