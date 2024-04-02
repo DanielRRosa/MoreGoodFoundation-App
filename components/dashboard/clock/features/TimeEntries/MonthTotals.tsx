@@ -1,28 +1,54 @@
-"use client";
+"use client"
 
-import { loadState } from "../../store/localStorage";
-import { formatElapsedTime } from "@/components/dashboard/clock/utils";
+import React, { useState } from "react";
+import { EmptyState } from "./TimeEntriesList/EmptyState";
+import { useAppSelector } from "../../hooks";
+import { formatElapsedTime } from "../../utils";
+import { selectTimeEntriesGroupedByDate, selectTimeEntriesCount } from "./store";
+import { format, isToday, isYesterday, startOfMonth, endOfMonth } from "date-fns";
 
-const MonthTotals = () => {
-  const data = loadState();
-  const arr = Object.entries(data?.timeEntries.entities);
-  const test = [];
+const TIME_ENTRIES_LIMIT = 50;
 
-  arr.forEach((entry) => {
-    const total = entry[1].stopTime - entry[1].startTime;
-    test.push(total);
-  });
+const TimeEntriesList = () => {
+  const [timeEntriesLimit, setTimeEntriesLimit] = useState(TIME_ENTRIES_LIMIT);
+  const groupedTimeEntries = useAppSelector((state) =>
+    selectTimeEntriesGroupedByDate(state, timeEntriesLimit)
+  );
 
-  const count = test.reduce(function (total, numero) {
-    return total + numero;
-  }, 0);
+  const sortedTimeEntries = Array.from(groupedTimeEntries.entries()).sort(
+    (a, b) => (a[0] > b[0] ? -1 : 1)
+  );
+
+  if (sortedTimeEntries.length === 0) {
+    return <EmptyState />;
+  }
+
+  // Calculando o total do mês
+  const totalMonth = calculateTotalMonth(sortedTimeEntries);
 
   return (
-    <div>
-      <span>Month Total</span>
-      <span className="text-primary">{formatElapsedTime(count)}</span>
+    <div className="mt-4 flex flex-col space-y-6">
+      {/* Exibindo o total do mês */}
+      <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
+        <span className="mr-2">Month's Total:</span>
+        <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">
+          {formatElapsedTime(totalMonth)}
+        </span>
+      </div>
     </div>
   );
 };
 
-export default MonthTotals;
+function calculateTotalMonth(sortedTimeEntries: [string, any[]][]) {
+  let totalMonth = 0;
+
+  sortedTimeEntries.forEach(([_, groupedTimeEntriesPerDate]) => {
+    groupedTimeEntriesPerDate.forEach((groupedTimeEntries) => {
+      totalMonth += groupedTimeEntries.elapsedTime;
+    });
+  });
+
+  return totalMonth;
+}
+
+export default TimeEntriesList;

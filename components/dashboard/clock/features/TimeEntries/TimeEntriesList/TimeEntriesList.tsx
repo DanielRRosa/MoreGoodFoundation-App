@@ -41,12 +41,12 @@ export const TimeEntriesList = () => {
   return (
     <div className="mt-4 flex flex-col space-y-6">
       {/* Exibindo o total do mês */}
-      <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
+      {/* <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
         <span className="mr-2">Month's Total:</span>
         <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">
           {formatElapsedTime(totalMonth)}
         </span>
-      </div>
+      </div> */}
 
       {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
         const [elapsedTimePerDay, reportedTimePerDay] =
