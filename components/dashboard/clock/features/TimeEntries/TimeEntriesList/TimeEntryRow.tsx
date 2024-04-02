@@ -1,6 +1,5 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -11,22 +10,14 @@ import { formatDatetime, formatElapsedTime } from "../../../utils";
 import { useAppDispatch } from "../../../hooks";
 import { useState } from "react";
 import { TimeEntryEdit } from "../components/TimeEntryEdit";
-import {
-  timeEntriesLoggedStatusChanged,
-  TimeEntry,
-  timeEntryRemoved,
-} from "../store";
+import { TimeEntry, timeEntryRemoved } from "../store";
 import { Edit2, Trash } from "lucide-react";
-import { Button } from "../../../ui/Button";
+import { Button } from "@/components/ui/button";
 
 export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
   const dispatch = useAppDispatch();
 
   const [isEditVisible, setIsEditVisible] = useState(false);
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(timeEntriesLoggedStatusChanged([timeEntry.id]));
-  };
 
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
@@ -36,35 +27,30 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
   };
 
   return (
-    <>
-      <div
-        className="flex flex-row items-center dark:text-white bg-gray-100 dark:bg-gray-900"
-        aria-label="Time entry child row"
-      >
-        <div className="max-w-[350px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-neutral-800 dark:text-white">
+    <div>
+      <div className="full-flex py-2" aria-label="Time entry child row">
+        <div className="max-w-[350px] overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium ">
           {timeEntry.text}
         </div>
-        <div className="flex flex-grow flex-row items-center justify-end space-x-1.5">
-          <Checkbox
-            checked={timeEntry.logged}
-            onChange={handleCheckboxChange}
-          />
-          <div className="w-[65px] text-center text-sm font-medium text-neutral-800 opacity-60 dark:text-white">
+        <div className="flex flex-grow flex-row items-center justify-end gap-2">
+          <div className="w-[75px] text-right text-base font-medium opacity-60">
             {formatElapsedTime(timeEntry.stopTime! - timeEntry.startTime)}
           </div>
-          <Button variant="ghost" className="h-8 w-8 p-2">
-            <Edit2
-              onClick={() => setIsEditVisible((state) => !state)}
-              aria-label="Edit entry"
-              className="size-5 text-blue-600 dark:text-blue-400"
-            />
+          <Button
+            variant="outline"
+            onClick={() => setIsEditVisible((state) => !state)}
+            size="icon"
+            className="size-8"
+          >
+            <Edit2 aria-label="Edit entry" className="size-5" />
           </Button>
-          <Button variant="ghost" className="h-8 w-8 p-2 hover:bg-rose-50">
-            <Trash
-              onClick={() => setRemoveDialogOpen(true)}
-              aria-label="Remove entry"
-              className="size-5 text-red-600 dark:text-red-400"
-            />
+          <Button
+            variant="destructive"
+            onClick={() => setRemoveDialogOpen(true)}
+            size="icon"
+            className="size-8"
+          >
+            <Trash aria-label="Remove entry" className="size-5" />
           </Button>
         </div>
       </div>
@@ -84,7 +70,7 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
           timeEntry={timeEntry}
         />
       )}
-    </>
+    </div>
   );
 };
 
@@ -109,13 +95,24 @@ function RemoveEntryDialog({
           {formatDatetime(timeEntry.stopTime!)}.
           {timeEntry.logged && "This entry was already logged!"}
         </DialogHeader>
-        <div className="mx-6 mb-6 flex flex-row justify-end gap-[10px] pt-[10px]">
-          <Button onClick={() => setRemoveDialogOpen(false)} variant="outline">
+        <div className="flex flex-row items-center justify-center gap-4">
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full"
+            onClick={() => setRemoveDialogOpen(false)}
+            aria-label="Cancel entry romoval"
+            title="Cancel entry removal"
+          >
             Cancel
           </Button>
           <Button
+            size="lg"
+            variant="destructive"
+            className="w-full"
             onClick={handleRemoveEntry}
             aria-label="Confirm entry romoval"
+            title="Confirm entry removal"
           >
             Remove
           </Button>

@@ -70,7 +70,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Flex CSS Properties */
   .full-flex {
     @apply flex flex-grow items-center gap-4;
+  }
+  .full-col-flex {
+    @apply flex flex-col flex-grow gap-4;
   }
 }

@@ -26,7 +26,7 @@ export const NewTimeEntry = () => {
     <div
       className={`${
         text === "" ? "border-neutral" : "border-primary"
-      } border rounded-full hover:border-neutral-400 transition-all duration-300`}
+      } border rounded-full transition-all duration-300`}
     >
       <div className="full-flex p-1" ref={ref}>
         <div className="full-flex px-4">

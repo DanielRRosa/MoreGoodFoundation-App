@@ -1,11 +1,10 @@
 "use client";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { formatElapsedTime } from "../../../utils";
 import { Play } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { TimeEntryRow } from "./TimeEntryRow";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { TimeEntryText } from "../components/TimeEntryText";
 import { ToggleAccordionIcon } from "../../../ui/ToggleAccordionIcon";
 import {
@@ -13,7 +12,7 @@ import {
   timeEntriesLoggedStatusChanged,
   timeEntryAdded,
 } from "../store";
-import { Button } from "../../../ui/Button";
+import { Button } from "@/components/ui/button";
 import { TimeReportingDialog } from "./TimeReportingDialog";
 import { RootState } from "../../../store/store";
 
@@ -43,40 +42,18 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
     setIsCollapsed((state) => !state);
   };
 
-  const { checkboxState, checkboxIsIndeterminate, handleCheckboxChange } =
-    useLoggedCheckbox(groupedTimeEntry);
-
   return (
-    <div className="shadow-[0px_20px_1px_-20px_black] dark:bg-gray-00 last:shadow-none">
-      <div
-        className="flex flex-row items-center"
-        aria-label="Grouped entry row"
-      >
+    <div className="p-4 border border-neutral rounded-md">
+      <div className="full-flex" aria-label="Grouped entry row">
         <SubEntriesCount
           onClick={handleToggleCollapse}
           groupedTimeEntry={groupedTimeEntry}
         />
         <TimeEntryText timeEntryText={groupedTimeEntry.text} />
-        <div className="flex flex-grow flex-row items-center justify-end space-x-1.5">
-          <Checkbox
-            style={{
-              color: checkboxIsIndeterminate ? "#BDBDBD" : "#2563eb",
-            }}
-            checked={checkboxState}
-            indeterminate={checkboxIsIndeterminate}
-            disabled={checkboxIsIndeterminate}
-            onChange={(e) => {
-              if (isAdjustableTimeReportingEnabled) {
-                setIsTimeReportingDialogVisible(true);
-              } else {
-                handleCheckboxChange(e);
-              }
-            }}
-            aria-label="is logged status"
-          />
+        <div className="flex flex-grow flex-row items-center justify-end gap-2">
           {isAdjustableTimeReportingEnabled ? (
             <div
-              className="flex w-[65px] cursor-default flex-col items-center justify-center"
+              className="flex w-[75px] cursor-default flex-col items-center justify-center"
               onClick={() => {
                 setIsTimeReportingDialogVisible(true);
               }}
@@ -85,29 +62,29 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
                 {formatElapsedTime(groupedTimeEntry.elapsedTime)}
               </div>
 
-              <div className="flex items-center text-xs font-medium ">
-                <span className="flex items-center  rounded rounded-t-none border bg-neutral-100 px-2 tabular-nums  text-neutral-700 opacity-50">
+              <div className="flex items-center text-base font-medium ">
+                <span className="flex items-center rounded rounded-t-none border bg-neutral-100 px-2 tabular-nums  text-neutral-700 opacity-50">
                   {formatElapsedTime(groupedTimeEntry.loggedTime)}
                 </span>
               </div>
             </div>
           ) : (
-            <div className="w-[65px] text-center text-sm font-medium text-neutral-800 opacity-60 dark:text-white">
+            <div className="w-[75px] text-right text-base font-medium text-neutral-800 opacity-60 dark:text-white">
               {formatElapsedTime(groupedTimeEntry.elapsedTime)}
             </div>
           )}
+          <Button
+            variant="default"
+            className="size-8 p-2"
+            onClick={handleAddTimeEntryClick}
+          >
+            <Play className="size-5" />
+          </Button>
           <ToggleAccordionIcon
             onClick={handleToggleCollapse}
             aria-label="Grouped entry accordion"
             isCollapsed={isCollapsed}
           />
-          <Button
-            variant={"ghost"}
-            className="h-8 w-8 p-2"
-            onClick={handleAddTimeEntryClick}
-          >
-            <Play className="text-blue-600" />
-          </Button>
         </div>
       </div>
 
@@ -128,27 +105,6 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
       )}
     </div>
   );
-};
-
-const useLoggedCheckbox = (groupedTimeEntry: GroupedTimeEntry) => {
-  const dispatch = useDispatch();
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(timeEntriesLoggedStatusChanged(groupedTimeEntry.ids));
-  };
-
-  let checkboxState = true;
-  let checkboxIsIndeterminate = false;
-
-  if (groupedTimeEntry.logged.every((a) => a === true)) {
-    checkboxState = true;
-  } else if (groupedTimeEntry.logged.every((a) => a === false)) {
-    checkboxState = false;
-  } else {
-    checkboxIsIndeterminate = true;
-  }
-
-  return { checkboxState, checkboxIsIndeterminate, handleCheckboxChange };
 };
 
 function SubEntriesCount({

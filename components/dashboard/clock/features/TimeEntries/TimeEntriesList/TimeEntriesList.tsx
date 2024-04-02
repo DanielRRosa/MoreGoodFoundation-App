@@ -1,25 +1,16 @@
-"use client";
-
 import { useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { useAppSelector } from "../../../hooks";
 import { formatElapsedTime } from "../../../utils";
+import { GroupedTimeEntryRow } from "./GroupedTimeEntryRow";
 import {
   selectTimeEntriesGroupedByDate,
   selectTimeEntriesCount,
 } from "../store";
 import { Button } from "@/components/ui/button";
 import { RootState } from "../../../store/store";
-import {
-  format,
-  isToday,
-  isYesterday,
-  startOfMonth,
-  endOfMonth,
-} from "date-fns"; // Importando funções do date-fns
-import { GroupedTimeEntryRow } from "./GroupedTimeEntryRow";
 
-const TIME_ENTRIES_LIMIT = 50;
+const TIME_ENTRIES_LIMIT = 10;
 
 export const TimeEntriesList = () => {
   const [timeEntriesLimit, setTimeEntriesLimit] = useState(TIME_ENTRIES_LIMIT);
@@ -34,9 +25,6 @@ export const TimeEntriesList = () => {
   if (sortedTimeEntries.length === 0) {
     return <EmptyState />;
   }
-
-  // Calculando o total do mês
-  const totalMonth = calculateTotalMonth(sortedTimeEntries);
 
   return (
     <div className="mt-4 flex flex-col space-y-6">
@@ -57,16 +45,15 @@ export const TimeEntriesList = () => {
             ],
             [0, 0]
           );
-
         return (
-          <div key={date}>
+          <div key={date} className="full-col-flex">
             <DayHeader
               date={date}
               elapsedTimePerDay={elapsedTimePerDay}
               reportedTimePerDay={reportedTimePerDay}
             />
             {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-              <TimeEntryCard
+              <GroupedTimeEntryRow
                 groupedTimeEntry={groupedTimeEntries}
                 key={groupedTimeEntries.text}
               />
@@ -83,18 +70,6 @@ export const TimeEntriesList = () => {
   );
 };
 
-function calculateTotalMonth(sortedTimeEntries: [string, any[]][]) {
-  let totalMonth = 0;
-
-  sortedTimeEntries.forEach(([_, groupedTimeEntriesPerDate]) => {
-    groupedTimeEntriesPerDate.forEach((groupedTimeEntries) => {
-      totalMonth += groupedTimeEntries.elapsedTime;
-    });
-  });
-
-  return totalMonth;
-}
-
 function DayHeader({
   date,
   elapsedTimePerDay,
@@ -104,37 +79,38 @@ function DayHeader({
   elapsedTimePerDay: number;
   reportedTimePerDay: number;
 }) {
-  const formattedDate = formatDate(date);
-
-  return (
-    <div className="mb-4">
-      <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">
-        {formattedDate}
-      </span>
-      <span className="mr-2 text-lg font-semibold text-neutral-700 dark:text-neutral-200 opacity-50">
-        {formatElapsedTime(elapsedTimePerDay)}
-      </span>
-    </div>
+  const isAdjustableTimeReportingEnabled = useAppSelector(
+    (state: RootState) =>
+      state.settings.featureFlags.isAdjustableTimeReportingEnabled
   );
-}
 
-function TimeEntryCard({ groupedTimeEntry }: { groupedTimeEntry: any }) {
-  return (
-    <div className="rounded-lg mb-2 border p-4 shadow-[-2px_5px_20px_0px_#0000001A] border-blue-500 dark:bg-gray-0 ">
-      <GroupedTimeEntryRow groupedTimeEntry={groupedTimeEntry} />
-    </div>
-  );
-}
+  if (isAdjustableTimeReportingEnabled) {
+    return (
+      <div className="flex items-center">
+        <span className="mr-2 text-lg font-semibold">{date}</span>
+        <span className="mr-2 text-lg font-semibold opacity-50">
+          {formatElapsedTime(elapsedTimePerDay)}
+        </span>
 
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-
-  if (isToday(date)) {
-    return "Today: ";
-  } else if (isYesterday(date)) {
-    return "Yesterday: ";
+        <div className="flex items-center text-xs font-semibold">
+          <span className="rounded rounded-r-none border border-neutral bg-neutral2 pr-1">
+            Logged
+          </span>
+          <span className="flex items-center rounded rounded-l-none border bg-neutral-100 pl-1 pr-2 text-neutral opacity-50">
+            {formatElapsedTime(reportedTimePerDay)}
+          </span>
+        </div>
+      </div>
+    );
   } else {
-    return format(date, "MMMM dd: "); // Formato personalizado: mês completo e dia
+    return (
+      <div>
+        <span className="text-lg font-semibold ">{date}</span> &nbsp;
+        <span className="text-lg font-semibold opacity-50">
+          {formatElapsedTime(elapsedTimePerDay)}
+        </span>
+      </div>
+    );
   }
 }
 
@@ -163,7 +139,7 @@ const PaginationButtons = ({
 
   return (
     <div className="flex flex-row justify-end gap-[10px] pt-[10px]">
-      <Button variant={"outline"} onClick={handleLoadAll}>
+      <Button variant="outline" onClick={handleLoadAll}>
         Load All
       </Button>
       <Button onClick={handleLoadMore}>Load More</Button>
