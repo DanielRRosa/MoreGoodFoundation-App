@@ -4,7 +4,7 @@ import { Greating } from "@/components/dashboard/greating";
 import { ProjectSelectFilter } from "@/components/dashboard/search/project-select-filter";
 import { SearchFilter } from "@/components/dashboard/search/search-filter";
 import { StatusSelectFilter } from "@/components/dashboard/search/status-select-filter";
-import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/MonthTotals";
+import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/month-totals";
 import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
 
 const MemberDashboard = async () => {
