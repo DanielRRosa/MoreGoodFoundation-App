@@ -12,22 +12,23 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(uuid()) @map("_id")
+  id            String      @id @default(uuid()) @map("_id")
   provider      String?
-  email         String    @unique
+  email         String      @unique
   emailVerified Boolean?
   image         String?
-  username      String?   @unique
+  username      String?     @unique
   firstName     String?
   lastName      String?
   fullName      String?
-  createdAt     DateTime  @default(now())
-  role          Role      @unique @default(member)
-  team          Team?     @relation(fields: [teamId], references: [id])
+  createdAt     DateTime    @default(now())
+  role          Role        @unique @default(member)
+  team          Team?       @relation(fields: [teamId], references: [id])
   teamId        String?
-  Project       Project?  @relation(fields: [projectId], references: [id])
+  Project       Project?    @relation(fields: [projectId], references: [id])
   projectId     String?
   Account       Account[]
+  timedTask     timedTask[]
 }
 
 enum Role {
@@ -62,26 +63,16 @@ model Team {
 }
 
 model Project {
-  id        String      @id @default(uuid()) @map("_id")
-  name      String
-  users     User[]
-  timedTask timedTask[]
-}
-
-model Status {
-  id        String      @id @default(uuid()) @map("_id")
-  name      String      @unique
-  createdAt DateTime    @default(now())
-  timedTask timedTask[]
+  id    String @id @default(uuid()) @map("_id")
+  name  String
+  users User[]
 }
 
 model timedTask {
-  id        String   @id @default(uuid()) @map("_id")
+  id        String  @id @default(uuid()) @map("_id")
   name      String
-  status    Status?  @relation(fields: [statusId], references: [id])
-  project   Project  @relation(fields: [projectId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  statusId  String
-  projectId String
+  user      User?   @relation(fields: [userId], references: [id])
+  startTime BigInt
+  stopTime  BigInt?
+  userId    String?
 }

@@ -1,4 +1,3 @@
-"use client"
 export const EmptyState = () => {
   return (
     <div className="flex flex-grow flex-col items-center justify-center px-8 py-4 text-neutral-800 ">

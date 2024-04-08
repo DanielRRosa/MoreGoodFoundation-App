@@ -13,6 +13,7 @@ import { TimeEntryEdit } from "../components/TimeEntryEdit";
 import { TimeEntry, timeEntryRemoved } from "../store";
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,6 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
             variant="outline"
             onClick={() => setIsEditVisible((state) => !state)}
             size="icon"
-            className="size-8"
           >
             <Edit2 aria-label="Edit entry" className="size-5" />
           </Button>
@@ -48,7 +48,6 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
             variant="destructive"
             onClick={() => setRemoveDialogOpen(true)}
             size="icon"
-            className="size-8"
           >
             <Trash aria-label="Remove entry" className="size-5" />
           </Button>
@@ -87,14 +86,16 @@ function RemoveEntryDialog({
 }) {
   return (
     <Dialog open={removeDialogOpen} onClose={() => setRemoveDialogOpen(false)}>
-      <DialogTitle>Delete entry {timeEntry.text}?</DialogTitle>
       <DialogContent>
-        <DialogHeader>
-          Do you want to delete entry {timeEntry.text} which started in{" "}
+        <DialogHeader className="text-3xl font-bold">
+          Delete time record
+        </DialogHeader>
+        <DialogDescription className="text-base">
+          Do you really want to delete entry {timeEntry.text} which started in{" "}
           {formatDatetime(timeEntry.startTime)} and ended in{" "}
           {formatDatetime(timeEntry.stopTime!)}.
           {timeEntry.logged && "This entry was already logged!"}
-        </DialogHeader>
+        </DialogDescription>
         <div className="flex flex-row items-center justify-center gap-4">
           <Button
             size="lg"

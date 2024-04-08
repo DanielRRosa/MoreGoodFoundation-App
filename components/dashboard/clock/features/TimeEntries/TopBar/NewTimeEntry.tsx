@@ -17,7 +17,6 @@ export const NewTimeEntry = () => {
 
   const handleAddClick = () => {
     dispatch(timeEntryAdded({ text: text, startTime: Date.now() }));
-    console.log({ text: text, startTime: Date.now() });
   };
 
   useKeyPress(handleAddClick, ["Enter"], ref);
@@ -26,7 +25,7 @@ export const NewTimeEntry = () => {
     <div
       className={`${
         text === "" ? "border-neutral" : "border-primary"
-      } border rounded-full transition-all duration-300`}
+      } border rounded-full transition-all duration-300 hover:border-primary`}
     >
       <div className="full-flex p-1" ref={ref}>
         <div className="full-flex px-4">

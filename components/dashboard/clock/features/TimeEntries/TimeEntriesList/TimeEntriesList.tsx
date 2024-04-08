@@ -7,92 +7,10 @@ import {
   selectTimeEntriesGroupedByDate,
   selectTimeEntriesCount,
 } from "../store";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../ui/Button";
 import { RootState } from "../../../store/store";
 
-const TIME_ENTRIES_LIMIT = 10;
-
-function TimeEntriesListMobile({
-  sortedTimeEntries,
-  timeEntriesLimit,
-  setTimeEntriesLimit,
-}) {
-  return (
-    <div className="mt-4 flex flex-col space-y-6">
-      {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
-        const [elapsedTimePerDay, reportedTimePerDay] =
-          groupedTimeEntriesPerDate.reduce(
-            (acc: number[], groupedTimeEntries) => [
-              acc[0] + groupedTimeEntries.elapsedTime,
-              acc[1] + groupedTimeEntries.loggedTime,
-            ],
-            [0, 0]
-          );
-        return (
-          <div key={date} className="full-col-flex">
-            <DayHeader
-              date={date}
-              elapsedTimePerDay={elapsedTimePerDay}
-              reportedTimePerDay={reportedTimePerDay}
-            />
-            {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-              <GroupedTimeEntryRow
-                groupedTimeEntry={groupedTimeEntries}
-                key={groupedTimeEntries.text}
-              />
-            ))}
-          </div>
-        );
-      })}
-
-      <PaginationButtons
-        timeEntriesLimit={timeEntriesLimit}
-        setTimeEntriesLimit={setTimeEntriesLimit}
-      />
-    </div>
-  );
-}
-
-function TimeEntriesListDesktop({
-  sortedTimeEntries,
-  timeEntriesLimit,
-  setTimeEntriesLimit,
-}) {
-  return (
-    <div className="mt-4 flex flex-col space-y-6">
-      {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
-        const [elapsedTimePerDay, reportedTimePerDay] =
-          groupedTimeEntriesPerDate.reduce(
-            (acc: number[], groupedTimeEntries) => [
-              acc[0] + groupedTimeEntries.elapsedTime,
-              acc[1] + groupedTimeEntries.loggedTime,
-            ],
-            [0, 0]
-          );
-        return (
-          <div key={date} className="full-col-flex">
-            <DayHeader
-              date={date}
-              elapsedTimePerDay={elapsedTimePerDay}
-              reportedTimePerDay={reportedTimePerDay}
-            />
-            {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-              <GroupedTimeEntryRow
-                groupedTimeEntry={groupedTimeEntries}
-                key={groupedTimeEntries.text}
-              />
-            ))}
-          </div>
-        );
-      })}
-
-      <PaginationButtons
-        timeEntriesLimit={timeEntriesLimit}
-        setTimeEntriesLimit={setTimeEntriesLimit}
-      />
-    </div>
-  );
-}
+const TIME_ENTRIES_LIMIT = 50;
 
 export const TimeEntriesList = () => {
   const [timeEntriesLimit, setTimeEntriesLimit] = useState(TIME_ENTRIES_LIMIT);
@@ -105,29 +23,46 @@ export const TimeEntriesList = () => {
   );
 
   if (sortedTimeEntries.length === 0) {
-    return <EmptyState />;
+    return (
+      <div>
+        <EmptyState />
+      </div>
+    );
   }
 
   return (
-    <>
-      {/* Mobile layout */}
-      <div className="lg:hidden">
-        <TimeEntriesListMobile
-          sortedTimeEntries={sortedTimeEntries}
-          timeEntriesLimit={timeEntriesLimit}
-          setTimeEntriesLimit={setTimeEntriesLimit}
-        />
-      </div>
+    <div>
+      {sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
+        const [elapsedTimePerDay, reportedTimePerDay] =
+          groupedTimeEntriesPerDate.reduce(
+            (acc: number[], groupedTimeEntries) => [
+              acc[0] + groupedTimeEntries.elapsedTime,
+              acc[1] + groupedTimeEntries.loggedTime,
+            ],
+            [0, 0]
+          );
+        return (
+          <div key={date} className="full-col-flex">
+            <DayHeader
+              date={date}
+              elapsedTimePerDay={elapsedTimePerDay}
+              reportedTimePerDay={reportedTimePerDay}
+            />
+            {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
+              <GroupedTimeEntryRow
+                groupedTimeEntry={groupedTimeEntries}
+                key={groupedTimeEntries.text}
+              />
+            ))}
+          </div>
+        );
+      })}
 
-      {/* Desktop layout */}
-      <div className="hidden lg:block">
-        <TimeEntriesListDesktop
-          sortedTimeEntries={sortedTimeEntries}
-          timeEntriesLimit={timeEntriesLimit}
-          setTimeEntriesLimit={setTimeEntriesLimit}
-        />
-      </div>
-    </>
+      <PaginationButtons
+        timeEntriesLimit={timeEntriesLimit}
+        setTimeEntriesLimit={setTimeEntriesLimit}
+      />
+    </div>
   );
 };
 
@@ -145,33 +80,19 @@ function DayHeader({
       state.settings.featureFlags.isAdjustableTimeReportingEnabled
   );
 
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const dateObj = new Date(date);
-  let formattedDate;
-  if (dateObj.toDateString() === today.toDateString()) {
-    formattedDate = 'Today';
-  } else if (dateObj.toDateString() === yesterday.toDateString()) {
-    formattedDate = 'Yesterday';
-  } else {
-    formattedDate = getFormattedDate(date);
-  }
-
   if (isAdjustableTimeReportingEnabled) {
     return (
       <div className="flex items-center">
-        <span className="mr-2 text-lg font-semibold">{formattedDate}</span>
+        <span className="mr-2 text-lg font-semibold">{date}</span>
         <span className="mr-2 text-lg font-semibold opacity-50">
           {formatElapsedTime(elapsedTimePerDay)}
         </span>
 
         <div className="flex items-center text-xs font-semibold">
-          <span className="rounded rounded-r-none border border-neutral bg-neutral2 pr-1">
+          <span className="rounded rounded-r-none border border-neutral-500 bg-neutral-500 pl-2 pr-1 text-white">
             Logged
           </span>
-          <span className="flex items-center rounded rounded-l-none border bg-neutral-100 pl-1 pr-2 text-neutral opacity-50">
+          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 pl-1 pr-2  text-neutral-700 opacity-50">
             {formatElapsedTime(reportedTimePerDay)}
           </span>
         </div>
@@ -179,9 +100,9 @@ function DayHeader({
     );
   } else {
     return (
-      <div>
-        <span className="text-lg font-semibold ">{formattedDate}</span> &nbsp;
-        <span className="text-lg font-semibold opacity-50">
+      <div className="full-flex">
+        <span className="text-lg font-semibold text-neutral-700">{date}</span>
+        <span className="text-lg font-semibold text-neutral-700 opacity-50">
           {formatElapsedTime(elapsedTimePerDay)}
         </span>
       </div>
@@ -213,7 +134,7 @@ const PaginationButtons = ({
   }
 
   return (
-    <div className="flex flex-row justify-end gap-[10px] pt-[10px]">
+    <div className="flex flex-row justify-end gap-3 pt-3">
       <Button variant="outline" onClick={handleLoadAll}>
         Load All
       </Button>

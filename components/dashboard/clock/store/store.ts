@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { loadState, saveState } from "./localStorage";
 import { timeEntries } from "../features/TimeEntries/store/slice";
@@ -29,7 +30,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<
   ExtraArgumentsType = any,
-  ReturnThunkActionType = void,
+  ReturnThunkActionType = void
 > = ThunkAction<
   ReturnThunkActionType,
   RootState,

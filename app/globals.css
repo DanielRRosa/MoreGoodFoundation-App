@@ -76,6 +76,6 @@
     @apply flex flex-grow items-center gap-4;
   }
   .full-col-flex {
-    @apply flex flex-col flex-grow gap-4;
+    @apply flex flex-col flex-grow gap-3;
   }
 }

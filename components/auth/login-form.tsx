@@ -17,10 +17,13 @@ import {
 import { Greating } from "../dashboard/greating";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, EyeIcon, EyeOffIcon } from "lucide-react";
 
 const LoginPage = () => {
   const [isPending, startTransition] = useTransition();
+  const [passwordVisibility, setPasswordVisibility] = useState<
+    "password" | "text"
+  >("password");
 
   const LoginSchema = z.object({
     email: z.string().email("Email is required"),
@@ -59,10 +62,10 @@ const LoginPage = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral rounded-full transition-all focus:border-primary">
+                  <FormControl className="min-w-full border border-neutral rounded-full transition-all duration-300 hover:border-primary focus:border-primary">
                     <Input
                       {...field}
-                      className="placeholder:capitalize"
+                      className="bg-transparent placeholder:capitalize"
                       placeholder={field.name}
                       type="email"
                       disabled={isPending}
@@ -77,14 +80,39 @@ const LoginPage = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral rounded-full transition-all focus:border-primary">
-                    <Input
-                      {...field}
-                      className="placeholder:capitalize"
-                      placeholder={field.name}
-                      type="password"
-                      disabled={isPending}
-                    />
+                  <FormControl className="min-w-full border border-neutral rounded-full transition-all duration-300 hover:border-primary focus:border-primary">
+                    <div className="full-flex">
+                      <Input
+                        {...field}
+                        className="bg-transparent placeholder:capitalize"
+                        placeholder={field.name}
+                        type={passwordVisibility}
+                        disabled={isPending}
+                      />
+                      {passwordVisibility === "password" ? (
+                        <Button
+                          onClick={() => setPasswordVisibility("text")}
+                          size="icon"
+                          type="button"
+                          variant="ghost"
+                          title="Show password"
+                          className="bg-transparent hover:bg-transparent"
+                        >
+                          <EyeIcon className="size-5" />
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => setPasswordVisibility("password")}
+                          size="icon"
+                          type="button"
+                          variant="ghost"
+                          title="Hide password"
+                          className="bg-transparent hover:bg-transparent"
+                        >
+                          <EyeOffIcon className="size-5" />
+                        </Button>
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,7 +122,8 @@ const LoginPage = () => {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full flex items-center gap-4 rounded-full bg-blue-600 dark:bg-white dark:text-blue-600"
+            variant="default"
+            className="w-full flex items-center gap-4 rounded-full"
           >
             {isPending && <Loader2 className="animate-spin size-4" />}
             {isPending ? "Login in..." : "Login"}
@@ -106,19 +135,19 @@ const LoginPage = () => {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
+          <span className="bg-background px-2 text-muted-foreground">Or</span>
         </div>
       </div>
       <Button
         variant="outline"
         disabled={isPending}
+        title="Continue with Google"
         className="w-full flex items-center gap-4 rounded-full"
         onClick={() => signIn("google")}
       >
         <GoogleIcon />
-        Continue with Google
+        <p className="sr-only">Sign up with Google</p>
+        Sign up with Google
       </Button>
     </div>
   );

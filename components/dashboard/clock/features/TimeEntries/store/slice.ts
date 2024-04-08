@@ -6,6 +6,10 @@ import {
 } from "@reduxjs/toolkit";
 import { clearAppState, loadBackup } from "../../../store/commonActions";
 import { generateId } from "../../../utils";
+import {
+  createTimedTask,
+  updateTimedTask,
+} from "@/components/database/TimedTasks/timedtasks.actions";
 
 export interface TimeEntry {
   id: string;
@@ -51,6 +55,8 @@ export const timeEntries = createSlice({
         logged: false,
       };
 
+      createTimedTask({ ...newEntry });
+
       timeEntriesAdapter.addOne(state, newEntry);
     },
 
@@ -62,6 +68,7 @@ export const timeEntries = createSlice({
       const changes: Partial<TimeEntry> = {
         stopTime: Date.now(),
       };
+      updateTimedTask({ id: action.payload, changes });
       timeEntriesAdapter.updateOne(state, { id: action.payload, changes });
     },
 

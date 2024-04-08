@@ -5,8 +5,8 @@ import {
 import { Profile, User } from "next-auth";
 
 export const validateUser = async (profile: Profile) => {
-  console.log("Validate User", profile);
-  return true
+  // console.log("Validate User", profile);
+  return true;
   if (!profile.email?.endsWith("moregoodfoundation.org")) {
     const uniqueUser = await getUserThatRole({
       email: profile.email as string,

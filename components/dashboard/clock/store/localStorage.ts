@@ -1,7 +1,7 @@
 import { EntityState } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { TimeEntry } from "../features/TimeEntries/store";
-import { SettingsState } from "../features/Settings/slice";
+import { SettingsState } from "../features/Settings0/slice";
 
 export const loadState = () => {
   try {

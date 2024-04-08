@@ -14,6 +14,13 @@ const AuthButtons = ({}) => {
       </Button>
     );
   }
+  if (path.includes("unauthorized")) {
+    return (
+      <Button variant="outline" asChild>
+        <Link href="/auth/register">Register</Link>
+      </Button>
+    );
+  }
   if (path.includes("register")) {
     return (
       <Button variant="outline" asChild>

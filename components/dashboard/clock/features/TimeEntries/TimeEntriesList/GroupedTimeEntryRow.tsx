@@ -7,11 +7,7 @@ import { TimeEntryRow } from "./TimeEntryRow";
 import { useState } from "react";
 import { TimeEntryText } from "../components/TimeEntryText";
 import { ToggleAccordionIcon } from "../../../ui/ToggleAccordionIcon";
-import {
-  GroupedTimeEntry,
-  timeEntriesLoggedStatusChanged,
-  timeEntryAdded,
-} from "../store";
+import { GroupedTimeEntry, timeEntryAdded } from "../store";
 import { Button } from "@/components/ui/button";
 import { TimeReportingDialog } from "./TimeReportingDialog";
 import { RootState } from "../../../store/store";
@@ -43,7 +39,7 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
   };
 
   return (
-    <div className="p-4 border border-neutral rounded-md">
+    <div className="p-2 border border-neutral rounded-md">
       <div className="full-flex" aria-label="Grouped entry row">
         <SubEntriesCount
           onClick={handleToggleCollapse}
@@ -75,7 +71,7 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
           )}
           <Button
             variant="default"
-            className="size-8 p-2"
+            size="icon"
             onClick={handleAddTimeEntryClick}
           >
             <Play className="size-5" />

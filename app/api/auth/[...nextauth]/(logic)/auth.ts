@@ -44,7 +44,6 @@ export const {
         session.user.lastName = uniqueUser.lastName;
         session.user.role = uniqueUser.role;
       }
-      console.log(session);
       return session;
     },
 

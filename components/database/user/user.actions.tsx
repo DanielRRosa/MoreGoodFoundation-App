@@ -25,7 +25,7 @@ export async function getUserThatRole({
       role: role,
     },
   });
-  console.log("Get user that role: ", user.id);
+  // console.log("Get user that role: ", user.id);
   return user;
 }
 
@@ -35,6 +35,6 @@ export async function getUserThat({ email }: { email: string }) {
       email,
     },
   });
-  console.log("Get user that: ", user.id);
+  // console.log("Get user that: ", user.id);
   return user;
 }

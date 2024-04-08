@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 
 import { RootState, storeReducers } from "../store/store";
 import { timeEntriesInitialState } from "../features/TimeEntries/store/slice";
-import { settingsInitialState } from "../features/Settings/slice";
+import { settingsInitialState } from "../features/Settings0/slice";
 
 const initialState: RootState = {
   timeEntries: timeEntriesInitialState,
@@ -13,7 +13,7 @@ const initialState: RootState = {
 
 function connectStore(
   component: ReactElement,
-  preloadedState: RootState = initialState,
+  preloadedState: RootState = initialState
 ) {
   // TODO: see store.ts regarding preloadedState typing
   const store = configureStore({
