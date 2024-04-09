@@ -31,7 +31,31 @@ export async function updateTimedTask({ ...currentEntry }) {
   return updatedTask;
 }
 
-// Update Timed Tasks Functions
+export async function editTimedTask({ ...currentEntry }) {
+  const editedTask: timedTask = await prisma.timedTask.update({
+    where: {
+      id: currentEntry.id,
+    },
+    data: {
+      name: currentEntry.text,
+      startTime: currentEntry.startTime,
+      stopTime: currentEntry.stopTime,
+    },
+  });
+  return editedTask;
+}
+
+// Delete Timed Tasks Functions
+export async function deleteTimedTask({ ...currentEntry }) {
+  const updatedTask: timedTask = await prisma.timedTask.delete({
+    where: {
+      id: currentEntry.id,
+    },
+  });
+  return updatedTask;
+}
+
+// Find Timed Tasks Functions
 export async function findAllTimedTasks() {
   const session = await auth();
   const findedTask: timedTask = await prisma.timedTask.findMany({

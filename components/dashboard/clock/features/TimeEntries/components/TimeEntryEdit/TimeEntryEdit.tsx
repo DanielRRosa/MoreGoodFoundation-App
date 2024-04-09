@@ -11,6 +11,7 @@ import { testId } from "../../../../testUtils/testId";
 import { TimeEntry, timeEntryUpdated } from "../../store";
 import { Button } from "@/components/ui/button";
 import { formatElapsedTime } from "@/components/dashboard/clock/utils";
+import { editTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
 
 interface TimeEntryEditProps {
   timeEntry: TimeEntry;
@@ -27,7 +28,7 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
     setIsEditVisible(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     dispatch(
       timeEntryUpdated({
         id: timeEntry.id,
@@ -38,6 +39,12 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
         },
       })
     );
+    await editTimedTask({
+      id: timeEntry.id,
+      startTime: startTimeValue,
+      stopTime: stopTimeValue,
+      text: entryText,
+    });
     setIsEditVisible(false);
   };
 

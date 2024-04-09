@@ -14,6 +14,7 @@ import { TimeEntry, timeEntryRemoved } from "../store";
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { deleteTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
 
 export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
   const dispatch = useAppDispatch();
@@ -22,9 +23,10 @@ export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
 
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
-  const handleRemoveEntry = () => {
+  const handleRemoveEntry = async () => {
     setRemoveDialogOpen(false);
     dispatch(timeEntryRemoved(timeEntry.id));
+    await deleteTimedTask(timeEntry);
   };
 
   return (
@@ -85,18 +87,31 @@ function RemoveEntryDialog({
   handleRemoveEntry: () => void;
 }) {
   return (
-    <Dialog open={removeDialogOpen} onClose={() => setRemoveDialogOpen(false)}>
+    <Dialog
+      open={removeDialogOpen}
+      onOpenChange={() => setRemoveDialogOpen(false)}
+    >
       <DialogContent>
-        <DialogHeader className="text-3xl font-bold">
+        <DialogHeader className="text-3xl font-bold text-destructive flex flex-row items-center gap-4">
           Delete time record
+          <Trash />
         </DialogHeader>
         <DialogDescription className="text-base">
-          Do you really want to delete entry {timeEntry.text} which started in{" "}
-          {formatDatetime(timeEntry.startTime)} and ended in{" "}
-          {formatDatetime(timeEntry.stopTime!)}.
+          Are you sure you want to delete this time record? This cannot be
+          undone.
           {timeEntry.logged && "This entry was already logged!"}
         </DialogDescription>
         <div className="flex flex-row items-center justify-center gap-4">
+          <Button
+            size="lg"
+            variant="destructive"
+            className="w-full"
+            onClick={handleRemoveEntry}
+            aria-label="Confirm entry romoval"
+            title="Confirm entry removal"
+          >
+            Delete
+          </Button>
           <Button
             size="lg"
             variant="outline"
@@ -106,16 +121,6 @@ function RemoveEntryDialog({
             title="Cancel entry removal"
           >
             Cancel
-          </Button>
-          <Button
-            size="lg"
-            variant="destructive"
-            className="w-full"
-            onClick={handleRemoveEntry}
-            aria-label="Confirm entry romoval"
-            title="Confirm entry removal"
-          >
-            Remove
           </Button>
         </div>
       </DialogContent>

@@ -62,7 +62,7 @@ const LoginPage = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral rounded-full transition-all duration-300 hover:border-primary focus:border-primary">
+                  <FormControl className="min-w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
                     <Input
                       {...field}
                       className="bg-transparent placeholder:capitalize"
@@ -80,7 +80,7 @@ const LoginPage = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl className="min-w-full border border-neutral rounded-full transition-all duration-300 hover:border-primary focus:border-primary">
+                  <FormControl className="min-w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
                     <div className="full-flex">
                       <Input
                         {...field}
@@ -123,7 +123,7 @@ const LoginPage = () => {
             type="submit"
             disabled={isPending}
             variant="default"
-            className="w-full flex items-center gap-4 rounded-full"
+            className="w-full flex items-center gap-4 rounded-md"
           >
             {isPending && <Loader2 className="animate-spin size-4" />}
             {isPending ? "Login in..." : "Login"}
@@ -142,7 +142,7 @@ const LoginPage = () => {
         variant="outline"
         disabled={isPending}
         title="Continue with Google"
-        className="w-full flex items-center gap-4 rounded-full"
+        className="w-full flex items-center gap-4 rounded-md"
         onClick={() => signIn("google")}
       >
         <GoogleIcon />

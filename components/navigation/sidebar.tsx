@@ -39,6 +39,11 @@ const Sidebar = () => {
       </ul>
       <div>
         <p>Teste</p>
+        <p>Teste</p>
+        <p>Teste</p>
+        <p>Teste</p>
+        <p>Teste</p>
+        <p>Teste</p>
       </div>
     </div>
   );

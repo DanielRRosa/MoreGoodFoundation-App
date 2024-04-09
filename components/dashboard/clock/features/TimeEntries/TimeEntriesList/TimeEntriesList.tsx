@@ -92,7 +92,7 @@ function DayHeader({
           <span className="rounded rounded-r-none border border-neutral-500 bg-neutral-500 pl-2 pr-1 text-white">
             Logged
           </span>
-          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 pl-1 pr-2  text-neutral-700 opacity-50">
+          <span className="flex  items-center rounded rounded-l-none  border bg-neutral-100 pl-1 pr-2  text-neutral-700 opacity-60">
             {formatElapsedTime(reportedTimePerDay)}
           </span>
         </div>
