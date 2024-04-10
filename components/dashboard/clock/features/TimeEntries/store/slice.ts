@@ -14,6 +14,7 @@ import {
 export interface TimeEntry {
   id: string;
   text: string;
+  project: string;
   startTime: number;
   stopTime?: number;
   logged: boolean;
@@ -37,7 +38,11 @@ export const timeEntries = createSlice({
   reducers: {
     timeEntryAdded: (
       state,
-      action: PayloadAction<{ text: string; startTime: number }>
+      action: PayloadAction<{
+        text: string;
+        project?: string;
+        startTime: number;
+      }>
     ) => {
       // Stop currently running entry
       const currentTimeEntry = Object.values(state.entities).find(
@@ -51,6 +56,7 @@ export const timeEntries = createSlice({
       const newEntry: TimeEntry = {
         id: generateId(),
         text: action.payload.text,
+        project: action.payload.project,
         startTime: action.payload.startTime,
         logged: false,
       };

@@ -1,4 +1,4 @@
-import AuthButtons from "@/components/auth/auth-buttons";
+import AuthButtons from "@/components/auth/AuthButtons";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +21,7 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
             <AuthButtons />
           </div>
           <div className="flex flex-row justify-center">{children}</div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-center">
             <p className="text-sm capitalize">
               © {year}
               <Link className="underline underline-offset-2" href="/">
@@ -30,14 +30,6 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
               </Link>{" "}
               - All rights reserved.
             </p>
-            <div className="divide-x grid grid-cols-2 max-md:hidden">
-              <Link className="px-4 text-sm capitalize" href="/auth/login">
-                Terms & Conditions
-              </Link>
-              <Link className="px-4 text-sm capitalize" href="/auth/login">
-                Privacy Policy
-              </Link>
-            </div>
           </div>
         </main>
       </div>

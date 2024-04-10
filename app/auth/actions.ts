@@ -1,19 +1,23 @@
 "use server";
 
-import db from "@/components/database/prisma-database";
+// Login Functions
+import { User } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-export const login = async (values: any) => {
+export const login = async (values: User) => {
   try {
-    await console.log(values);
-    // const user = db.user.findUnique({
-    //   where: {
-    //     email: values.email,
-    //   },
-    // });
-    // return user;
+    console.log("Login", values);
   } catch (e) {
     throw new Error("Login values are invalid");
   }
   redirect("/dashboard");
+};
+
+// Register Functions
+export const register = async (values: User) => {
+  try {
+    console.log("Register", values);
+  } catch (e) {
+    throw new Error("Login values are invalid");
+  }
 };

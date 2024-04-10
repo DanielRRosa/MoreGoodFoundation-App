@@ -34,6 +34,10 @@ export const CurrentTimeEntry: React.FC<CurrentTimeEntryProps> = ({
           <TimeEntryText timeEntryText={currentTimeEntry.text} />
         </div>
         <div className="flex flex-row items-center justify-center gap-4">
+          <div className="bg-primary px-4 py-1 rounded-md capitalize">
+            {currentTimeEntry.project}
+          </div>
+
           <main
             onClick={() => setIsEditVisible((state) => !state)}
             aria-label="elapsed time"
@@ -42,6 +46,7 @@ export const CurrentTimeEntry: React.FC<CurrentTimeEntryProps> = ({
               {formatElapsedTime(elapsedTime)}
             </span>
           </main>
+
           <Button
             className="rounded-full min-h-[60px] min-w-[60px]"
             onClick={handleOnStopClick}

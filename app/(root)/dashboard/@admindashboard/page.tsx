@@ -1,9 +1,9 @@
-import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
+import { auth } from "@/app/api/auth/[...nextauth]/(Settings)/auth";
 
 import { TimeEntriesList } from "@/components/dashboard/clock/features/TimeEntries/TimeEntriesList";
 import { TopBar } from "@/components/dashboard/clock/features/TimeEntries/TopBar";
 import { Greating } from "@/components/dashboard/greating";
-import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/month-totals";
+import MonthTotals from "@/components/dashboard/clock/features/TimeEntries/MonthTotals";
 
 const AdminDashboard = async () => {
   const session = await auth();

@@ -2,9 +2,9 @@ import {
   apiPrefix,
   authRoutes,
   redirectRoute,
-} from "@/app/api/auth/[...nextauth]/(logic)/routes";
+} from "@/app/api/auth/[...nextauth]/(Settings)/routes";
 import NextAuth from "next-auth";
-import authConfig from "@/app/api/auth/[...nextauth]/(logic)/auth.config";
+import authConfig from "@/app/api/auth/[...nextauth]/(Settings)/auth.config";
 
 const { auth } = NextAuth(authConfig);
 

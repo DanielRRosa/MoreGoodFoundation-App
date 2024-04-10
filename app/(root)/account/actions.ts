@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/components/database/prisma-database";
+import prisma from "@/components/database/Database";
 import { redirect } from "next/navigation";
 
 export const login = async (values: any) => {

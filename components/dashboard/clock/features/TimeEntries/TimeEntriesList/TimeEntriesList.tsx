@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { useAppSelector } from "../../../hooks";

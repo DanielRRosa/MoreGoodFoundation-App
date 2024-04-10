@@ -1,8 +1,8 @@
 "use server";
 
-import prisma from "../prisma-database";
+import prisma from "../Database";
 import { timedTask } from "@prisma/client";
-import { auth } from "@/app/api/auth/[...nextauth]/(logic)/auth";
+import { auth } from "@/app/api/auth/[...nextauth]/(Settings)/auth";
 
 // Create Timed Tasks Functions
 export async function createTimedTask({ ...newEntry }) {
@@ -11,6 +11,7 @@ export async function createTimedTask({ ...newEntry }) {
     data: {
       id: newEntry.id,
       name: newEntry.text,
+      project: newEntry.project,
       startTime: newEntry.startTime,
       userId: session?.user.id,
     },
@@ -58,7 +59,7 @@ export async function deleteTimedTask({ ...currentEntry }) {
 // Find Timed Tasks Functions
 export async function findAllTimedTasks() {
   const session = await auth();
-  const findedTask: timedTask = await prisma.timedTask.findMany({
+  const findedTask = await prisma.timedTask.findMany({
     where: {
       userId: session?.user.id,
     },

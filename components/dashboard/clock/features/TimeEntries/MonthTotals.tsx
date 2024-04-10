@@ -4,14 +4,14 @@ import { formatElapsedTime } from "../../utils";
 const MonthTotals = async () => {
   const userTasks = await findAllTimedTasks();
   const taskData = userTasks.map((task) => {
-    const startTime = parseInt(task.startTime);
-    const stopTime = parseInt(task.stopTime);
+    const startTime: number = parseInt(task.startTime);
+    const stopTime: number = parseInt(task.stopTime);
 
     return stopTime - startTime;
   });
 
   let treatedTaskData = [...taskData];
-  let total = treatedTaskData.reduce((total, num) => {
+  let total = treatedTaskData.reduce((total: number, num: number) => {
     return parseInt(total + num);
   }, 0);
 

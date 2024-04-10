@@ -1,19 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
-import { formatDatetime, formatElapsedTime } from "../../../utils";
+import { formatElapsedTime } from "../../../utils";
 import { useAppDispatch } from "../../../hooks";
-import { useState } from "react";
 import { TimeEntryEdit } from "../components/TimeEntryEdit";
 import { TimeEntry, timeEntryRemoved } from "../store";
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { deleteTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
 
 export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {

@@ -24,6 +24,7 @@ const Greating = ({ children }: GreatingProps) => {
 function Title({
   user,
   className = "",
+  message = "",
   defaultMessage = "Welcome Back!",
 }: GreatingMessageProps) {
   return (

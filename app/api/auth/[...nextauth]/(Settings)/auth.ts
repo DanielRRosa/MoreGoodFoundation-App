@@ -1,12 +1,12 @@
 import type { Profile } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@/components/database/prisma-database";
+import prisma from "@/components/database/Database";
 
 import { validateUser } from "./validate-actions";
 
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-import { getUserThat } from "@/components/database/user/user.actions";
+import { getUserThat } from "@/components/database/User/user.actions";
 
 export const {
   handlers: { GET, POST },
@@ -52,5 +52,16 @@ export const {
     },
   },
   session: { strategy: "jwt" },
+  logger: {
+    error(code, ...message) {
+      log.error(code, message);
+    },
+    warn(code, ...message) {
+      log.warn(code, message);
+    },
+    debug(code, ...message) {
+      log.debug(code, message);
+    },
+  },
   // debug: true,
 });

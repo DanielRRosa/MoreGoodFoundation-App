@@ -1,6 +1,6 @@
 "use client";
 
-import { Play, Plus } from "lucide-react";
+import { Play } from "lucide-react";
 import { useRef, useState } from "react";
 import { useKeyPress } from "../../../hooks/useKeyPress";
 import { timeEntryAdded } from "../store";
@@ -8,15 +8,21 @@ import { useAppDispatch } from "../../../hooks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatElapsedTime } from "../../../utils";
+import CurrentProjectEntry from "./CurrentProjectEntry";
 
 export const NewTimeEntry = () => {
   const ref = useRef(null);
   const dispatch = useAppDispatch();
 
   const [text, setText] = useState<string>("");
+  const [project, setProject] = useState<string>("");
 
   const handleAddClick = () => {
-    dispatch(timeEntryAdded({ text: text, startTime: Date.now() }));
+    if (project) {
+      dispatch(
+        timeEntryAdded({ text: text, project: project, startTime: Date.now() })
+      );
+    }
   };
 
   useKeyPress(handleAddClick, ["Enter"], ref);
@@ -29,9 +35,8 @@ export const NewTimeEntry = () => {
     >
       <div className="full-flex p-1" ref={ref}>
         <div className="full-flex px-4">
-          <div className="flex items-center justify-center border border-neutral rounded-full min-w-[30px] min-h-[30px]">
-            <Plus className="size-5" />
-          </div>
+          <CurrentProjectEntry onSelect={(e) => setProject(e)} />
+
           <Input
             className="w-full rounded-lg px-3 py-2 text-base bg-transparent focus:outline-none"
             type="text"
@@ -41,6 +46,14 @@ export const NewTimeEntry = () => {
             placeholder="What are you working on today?"
           />
         </div>
+
+        {project ? (
+          <div className="bg-primary px-4 py-1 rounded-md capitalize">
+            {project}
+          </div>
+        ) : (
+          <div className="hidden">{project}</div>
+        )}
 
         <span
           className={`${
