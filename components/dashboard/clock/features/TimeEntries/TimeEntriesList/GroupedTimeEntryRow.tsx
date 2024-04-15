@@ -29,9 +29,11 @@ export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
   );
 
   const handleAddTimeEntryClick = () => {
+    console.log(groupedTimeEntry);
     dispatch(
       timeEntryAdded({
         text: groupedTimeEntry.text,
+        project: groupedTimeEntry.subEntries[0].project,
         startTime: Date.now(),
       })
     );

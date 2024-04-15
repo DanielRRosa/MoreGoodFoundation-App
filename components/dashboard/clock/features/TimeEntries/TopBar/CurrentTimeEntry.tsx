@@ -31,6 +31,7 @@ export const CurrentTimeEntry: React.FC<CurrentTimeEntryProps> = ({
           <div className="flex justify-center items-center border border-neutral rounded-full w-[30px] h-[30px]">
             <Plus className="size-5" />
           </div>
+
           <TimeEntryText timeEntryText={currentTimeEntry.text} />
         </div>
         <div className="flex flex-row items-center justify-center gap-4">
