@@ -52,16 +52,16 @@ export const {
     },
   },
   session: { strategy: "jwt" },
-  logger: {
-    error(code, ...message) {
-      log.error(code, message);
-    },
-    warn(code, ...message) {
-      log.warn(code, message);
-    },
-    debug(code, ...message) {
-      log.debug(code, message);
-    },
-  },
+  // logger: {
+  //   error(code, ...message) {
+  //     log.error(code, message);
+  //   },
+  //   warn(code, ...message) {
+  //     log.warn(code, message);
+  //   },
+  //   debug(code, ...message) {
+  //     log.debug(code, message);
+  //   },
+  // },
   // debug: true,
 });

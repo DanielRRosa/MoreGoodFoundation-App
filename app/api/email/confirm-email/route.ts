@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-import { ConfirmEmail } from "@/email/confirm-email";
+import { ConfirmEmail } from "@/emails/confirm-email";
 
 const resend = new Resend(process.env.RESEND_API_KEY as string);
 

@@ -23,12 +23,12 @@ model User {
   fullName      String?
   createdAt     DateTime    @default(now())
   role          Role        @unique @default(member)
-  team          Team        @relation(fields: [teamId], references: [id])
-  teamId        String
   Project       Project?    @relation(fields: [projectId], references: [id])
   projectId     String?
   Account       Account[]
   timedTask     timedTask[]
+  Team          Team?       @relation(fields: [teamId], references: [id])
+  teamId        String?
 }
 
 enum Role {

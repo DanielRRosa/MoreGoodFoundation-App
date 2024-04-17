@@ -21,7 +21,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="sticky top-4 min-h-[97vh] flex flex-col justify-between gap-5">
+    <div className="sticky top-4 flex flex-col justify-between gap-5">
       <ul className="flex flex-col justify-start gap-6 rounded-[20px] group transition-all duration-300 p-4 bg-neutral-200 w-[50px] hover:w-[180px] dark:bg-white/5">
         {links.map((link) => (
           <Link
@@ -38,11 +38,6 @@ const Sidebar = () => {
         ))}
       </ul>
       <div>
-        <p>Teste</p>
-        <p>Teste</p>
-        <p>Teste</p>
-        <p>Teste</p>
-        <p>Teste</p>
         <p>Teste</p>
       </div>
     </div>
