@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { EmptyState } from "./EmptyState";
@@ -12,14 +11,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { RootState } from "../../../store/store";
 
-const TIME_ENTRIES_LIMIT = 999;
+const DAY_ENTRIES_LIMIT = 3; // Limite de dias a serem exibidos
 
 export const TimeEntriesList = () => {
-  const [timeEntriesLimit, setTimeEntriesLimit] = useState(TIME_ENTRIES_LIMIT);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [visibleDays, setVisibleDays] = useState(DAY_ENTRIES_LIMIT); // Estado para controlar o número de dias visíveis
+  const [loadMoreDays, setLoadMoreDays] = useState<number | null>(null); // Estado para controlar o número de dias adicionados ao clicar em "Load More"
+  const [visibleMonths, setVisibleMonths] = useState<number>(4); // Definindo o número inicial de meses visíveis
+
   const groupedTimeEntries = useAppSelector((state) =>
-    selectTimeEntriesGroupedByDate(state, timeEntriesLimit)
+    selectTimeEntriesGroupedByDate(state)
   );
 
   const sortedTimeEntries = Array.from(groupedTimeEntries.entries()).sort(
@@ -37,11 +39,15 @@ export const TimeEntriesList = () => {
 
   const handleCurrentMonthClick = () => {
     setSelectedMonth(getCurrentYearMonth());
+    setVisibleDays(DAY_ENTRIES_LIMIT); // Resetando o número de dias visíveis ao mudar de mês
+    setLoadMoreDays(null); // Resetando o número de dias adicionados ao mudar de mês
   };
 
   const handlePastMonthSelect = (month: string) => {
     setSelectedMonth(month);
     setIsDropdownOpen(false);
+    setVisibleDays(DAY_ENTRIES_LIMIT); // Resetando o número de dias visíveis ao mudar de mês
+    setLoadMoreDays(null); // Resetando o número de dias adicionados ao mudar de mês
   };
 
   const toggleDropdown = () => {
@@ -65,6 +71,20 @@ export const TimeEntriesList = () => {
   };
 
   const pastMonths = generatePastMonths();
+
+  const filteredTimeEntries = selectedMonth ? sortedTimeEntries.filter(([date]) => date.includes(selectedMonth)) : sortedTimeEntries;
+
+  const limitedTimeEntries = filteredTimeEntries.slice(0, visibleDays + (loadMoreDays || 0)); // Limitando o número de dias visíveis
+
+  const timeEntriesCount = useAppSelector(selectTimeEntriesCount);
+
+  const handleLoadMore = () => {
+    setLoadMoreDays((prevLoadMoreDays) => (prevLoadMoreDays || 0) + DAY_ENTRIES_LIMIT); // Aumentando o número de dias adicionados ao clicar em "Load More"
+  };
+
+  const handleLoadAll = () => {
+    setVisibleDays(timeEntriesCount); // Definindo o número de dias visíveis como o total de entradas ao clicar em "Load All"
+  };
 
   return (
     <div className="mt-4 flex flex-col space-y-6">
@@ -103,19 +123,20 @@ export const TimeEntriesList = () => {
             </Button>
             {isDropdownOpen && (
               <div className="absolute top-full right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-md dark:bg-zinc-700 dark:text-white" style={{ zIndex: 999 }}>
-                {pastMonths.map((month) => (
+                {pastMonths.slice(0, visibleMonths).map((month) => (
                   <div
                     key={month}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-400"
                     onClick={() => handlePastMonthSelect(month)}
                   >
                     {month}
                   </div>
                 ))}
-                <PaginationButtons
-                  timeEntriesLimit={timeEntriesLimit}
-                  setTimeEntriesLimit={setTimeEntriesLimit}
-                />
+                {visibleMonths < pastMonths.length && (
+                  <div className="px-4 py-2 cursor-pointer hover:bg-blue-400 bg-primary text-white	" onClick={() => setVisibleMonths(prev => prev + 4)}>
+                    Load More
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -123,98 +144,42 @@ export const TimeEntriesList = () => {
         </div>
       </div>
 
-      <TotalMonth selectedMonth={selectedMonth} sortedTimeEntries={sortedTimeEntries} />
-
-      {selectedMonth === null
-        ? sortedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
-          const [elapsedTimePerDay, reportedTimePerDay] =
-            groupedTimeEntriesPerDate.reduce(
-              (acc: number[], groupedTimeEntries) => [
-                acc[0] + groupedTimeEntries.elapsedTime,
-                acc[1] + groupedTimeEntries.loggedTime,
-              ],
-              [0, 0]
-            );
-          return (
-            <div key={date} className="full-col-flex">
-              <DayHeader
-                date={date}
-                elapsedTimePerDay={elapsedTimePerDay}
-                reportedTimePerDay={reportedTimePerDay}
+      {limitedTimeEntries.map(([date, groupedTimeEntriesPerDate]) => {
+        const [elapsedTimePerDay, reportedTimePerDay] =
+          groupedTimeEntriesPerDate.reduce(
+            (acc: number[], groupedTimeEntries) => [
+              acc[0] + groupedTimeEntries.elapsedTime,
+              acc[1] + groupedTimeEntries.loggedTime,
+            ],
+            [0, 0]
+          ); 
+        return (
+          <div key={date} className="full-col-flex">
+            <DayHeader
+              date={date}
+              elapsedTimePerDay={elapsedTimePerDay}
+              reportedTimePerDay={reportedTimePerDay}
+            />
+            {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
+              <GroupedTimeEntryRow
+                groupedTimeEntry={groupedTimeEntries}
+                key={groupedTimeEntries.text}
               />
-              {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-                <GroupedTimeEntryRow
-                  groupedTimeEntry={groupedTimeEntries}
-                  key={groupedTimeEntries.text}
-                />
-              ))}
-            </div>
-          );
-        })
-        : sortedTimeEntries
-          .filter(([date]) => date.includes(selectedMonth))
-          .map(([date, groupedTimeEntriesPerDate]) => {
-            const [elapsedTimePerDay, reportedTimePerDay] =
-              groupedTimeEntriesPerDate.reduce(
-                (acc: number[], groupedTimeEntries) => [
-                  acc[0] + groupedTimeEntries.elapsedTime,
-                  acc[1] + groupedTimeEntries.loggedTime,
-                ],
-                [0, 0]
-              );
-            return (
-              <div key={date} className="full-col-flex">
-                <DayHeader
-                  date={date}
-                  elapsedTimePerDay={elapsedTimePerDay}
-                  reportedTimePerDay={reportedTimePerDay}
-                />
-                {groupedTimeEntriesPerDate.map((groupedTimeEntries) => (
-                  <GroupedTimeEntryRow
-                    groupedTimeEntry={groupedTimeEntries}
-                    key={groupedTimeEntries.text}
-                  />
-                ))}
-              </div>
-            );
-          })}
+            ))}
+          </div>
+        );
+      })}
 
       {/* Botões de paginação */}
+      {visibleDays < timeEntriesCount && (
+        <div className="flex justify-end space-x-4">
+          <Button onClick={handleLoadMore}>Load More</Button>
+          <Button variant="outline" onClick={handleLoadAll}>Load All</Button>
+        </div>
+      )}
     </div>
   );
 };
-
-function TotalMonth({ selectedMonth, sortedTimeEntries }: { selectedMonth: string | null; sortedTimeEntries: [string, any[]][]; }) {
-  // Verificando se um mês foi selecionado
-  if (selectedMonth === null) {
-    return null;
-  }
-
-  // Filtrando as entradas pelo mês selecionado
-  const totalMonth = calculateTotalMonth(sortedTimeEntries.filter(([date]) => date.includes(selectedMonth)));
-
-  // Renderizando o total do mês
-  return (
-    <div className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 my-4 flex justify-end items-center">
-      <span className="mr-2">{selectedMonth}'s Total:</span>
-      <span className="text-2xl font-bold text-blue-500 dark:text-blue-300">
-        {formatElapsedTime(totalMonth)}
-      </span>
-    </div>
-  );
-}
-
-function calculateTotalMonth(sortedTimeEntries: [string, any[]][]) {
-  let totalMonth = 0;
-
-  sortedTimeEntries.forEach(([_, groupedTimeEntriesPerDate]) => {
-    groupedTimeEntriesPerDate.forEach((groupedTimeEntries) => {
-      totalMonth += groupedTimeEntries.elapsedTime;
-    });
-  });
-
-  return totalMonth;
-}
 
 function DayHeader({
   date,
@@ -245,36 +210,5 @@ function DayHeader({
     </div>
   );
 }
-
-type PaginationButtonsProps = {
-  timeEntriesLimit: number;
-  setTimeEntriesLimit: React.Dispatch<React.SetStateAction<number>>;
-};
-
-const PaginationButtons = ({
-  timeEntriesLimit,
-  setTimeEntriesLimit,
-}: PaginationButtonsProps) => {
-  const timeEntriesCount = useAppSelector(selectTimeEntriesCount);
-
-  const handleLoadMore = () => {
-    setTimeEntriesLimit((state) => state + TIME_ENTRIES_LIMIT);
-  };
-
-  const handleLoadAll = () => {
-    setTimeEntriesLimit(Infinity);
-  };
-
-  if (timeEntriesCount < timeEntriesLimit) {
-    return null;
-  }
-
-  return (
-    <div className="w-full">
-      <Button className="w-full" onClick={handleLoadMore}>Load More</Button>
-      <Button className="w-full" variant="outline" onClick={handleLoadAll}>Load All</Button>
-    </div>
-  );
-};
 
 export default TimeEntriesList;

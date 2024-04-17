@@ -14,7 +14,7 @@ import { formatElapsedTime } from "@/components/dashboard/clock/utils";
 import { editTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
 
 interface TimeEntryEditProps {
-  timeEntry: TimeEntry;
+  timeEntry: TimeEntry; 
   setIsEditVisible: (flag: boolean) => void;
 }
 
@@ -71,14 +71,15 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
         />
         <div data-testid={testId.startTime}>
           <DatePicker
-            className="rounded border "
+            className="rounded border"
             selected={new Date(startTimeValue)}
             onChange={(date: Date) =>
-              date && setStartTimeValue(date?.getTime())
+              date && setStartTimeValue(date.getTime())
             }
             timeInputLabel="Time:"
             dateFormat="HH:mm"
             showTimeInput
+            maxDate={new Date()} // Impede a seleção de datas no futuro
           />
         </div>
         -
@@ -89,10 +90,13 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
             selected={
               stopTimeValue ? new Date(stopTimeValue) : new Date(Date.now())
             }
-            onChange={(date: Date) => date && setStopTimeValue(date?.getTime())}
+            onChange={(date: Date) =>
+              date && setStopTimeValue(date.getTime())
+            }
             timeInputLabel="Time:"
             dateFormat="HH:mm"
             showTimeInput
+            maxDate={new Date()} // Impede a seleção de datas no futuro
           />
         </div>
       </div>
