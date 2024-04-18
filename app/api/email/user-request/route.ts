@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-import { UserLoginRequest } from "@/emails/user-login-request";
+import { UserLoginRequest } from "@/email/user-login-request";
 
 const resend = new Resend(process.env.RESEND_API_KEY as string);
 

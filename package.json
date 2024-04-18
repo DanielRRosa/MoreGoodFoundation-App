@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "email dev --port 3001"
+    "email": "email dev --port 3001 --dir react-email-starter/emails"
   },
   "dependencies": {
     "@auth/core": "^0.28.0",
