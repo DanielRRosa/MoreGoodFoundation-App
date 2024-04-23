@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "email dev --port 3001 --dir react-email-starter/emails"
+    "email": "email dev --port 3001"
   },
   "dependencies": {
     "@auth/core": "^0.28.0",
@@ -23,10 +23,13 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@react-email/components": "0.0.15",
     "@reduxjs/toolkit": "^2.2.1",
+    "@tanstack/react-table": "^8.16.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
@@ -36,6 +39,7 @@
     "next": "^14.1.0",
     "next-auth": "^5.0.0-beta.11",
     "next-themes": "^0.2.1",
+    "nextjs": "^0.0.3",
     "prisma-client": "^0.0.0",
     "react": "^18.2.0",
     "react-datepicker": "^6.8.0",

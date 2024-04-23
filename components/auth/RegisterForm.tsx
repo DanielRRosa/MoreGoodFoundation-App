@@ -13,7 +13,7 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { Greating } from "../dashboard/greating";
+import { Greating } from "../dashboard/Welcome";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Loader2, EyeIcon, EyeOffIcon } from "lucide-react";

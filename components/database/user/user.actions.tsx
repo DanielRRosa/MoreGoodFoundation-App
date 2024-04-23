@@ -1,14 +1,17 @@
+"use server";
+
 import { Role, User } from "@prisma/client";
 import prisma from "../Database";
 
 // Admin Users Functions
 export async function getAllAdminUsers() {
-  const user: User = await prisma.user.findMany({
+  const users: User = await prisma.user.findMany({
     where: {
       role: "admin",
     },
   });
-  return user;
+  console.log(users);
+  return users;
 }
 
 // General Users Functions
@@ -38,6 +41,11 @@ export async function getUserThat({ email }: { email: string }) {
 }
 
 export async function getAllUsers() {
-  const user: User = await prisma.user.findMany();
-  return user;
+  const users: User = await prisma.user.findMany({
+    where: {
+      role: "admin",
+    },
+  });
+  console.log(users);
+  return users;
 }

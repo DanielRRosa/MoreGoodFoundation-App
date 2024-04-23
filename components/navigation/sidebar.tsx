@@ -37,9 +37,7 @@ const Sidebar = () => {
           </Link>
         ))}
       </ul>
-      <div>
-        <p>Teste</p>
-      </div>
+      <div>Teste</div>
     </div>
   );
 };
