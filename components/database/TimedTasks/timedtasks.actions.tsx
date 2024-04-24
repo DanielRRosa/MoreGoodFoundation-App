@@ -6,17 +6,21 @@ import { auth } from "@/app/api/auth/[...nextauth]/(Settings)/auth";
 
 // Create Timed Tasks Functions
 export async function createTimedTask({ ...newEntry }) {
-  const session = await auth();
-  const createdTask: timedTask = await prisma.timedTask.create({
-    data: {
-      id: newEntry.id,
-      name: newEntry.text,
-      project: newEntry.project,
-      startTime: newEntry.startTime,
-      userId: session?.user.id,
-    },
-  });
-  return createdTask;
+  try {
+    const session = await auth();
+    const createdTask: timedTask = await prisma.timedTask.create({
+      data: {
+        id: newEntry.id,
+        name: newEntry.text,
+        project: newEntry.project,
+        startTime: newEntry.startTime,
+        userId: session?.user.id,
+      },
+    });
+    return createdTask;
+  } catch (err) {
+    console.error("Error when creating the time task", err);
+  }
 }
 
 // Update Timed Tasks Functions

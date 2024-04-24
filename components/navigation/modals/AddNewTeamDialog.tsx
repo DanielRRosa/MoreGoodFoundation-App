@@ -24,52 +24,37 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Checkbox } from "@/components/ui/checkbox";
+import { createTeam } from "@/components/database/Team/team.action";
+import { useEffect, useState } from "react";
+import { getAllUsers } from "@/components/database/User/user.actions";
 
 const FormSchema = z.object({
   name: z.string({
-    required_error: "Please select an new item to add.",
+    required_error: "Please write the name of the new workspace",
   }),
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+  users: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
 });
 
-export function AddNewTeamDialog() {
+export function AddNewTeamDialog({users}) {
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      users: [],
+    },
   });
 
-  let items = [
-    {
-      id: "recents",
-      label: "Recents",
-    },
-    {
-      id: "home",
-      label: "Home",
-    },
-    {
-      id: "applications",
-      label: "Applications",
-    },
-    {
-      id: "desktop",
-      label: "Desktop",
-    },
-    {
-      id: "downloads",
-      label: "Downloads",
-    },
-    {
-      id: "documents",
-      label: "Documents",
-    },
-  ];
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      await createTeam(data);
+      console.log(data);
+    } catch (err) {
+      throw new Error("Teste", err);
+    }
   }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -80,79 +65,76 @@ export function AddNewTeamDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new workspace</DialogTitle>
+          <DialogTitle>New workspace</DialogTitle>
           <DialogDescription className="text-base">
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="full-col-flex gap-4"
+          >
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Workspace Name</FormLabel>
-                  <FormControl className="min-w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
-                    <Input placeholder="Workspace name" {...field} />
+                <FormItem className="full-flex">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl className="w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
+                    <Input placeholder="Write the workspace name" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is the name the workspace will be displayed.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="items"
+              name="users"
               render={() => (
                 <FormItem>
-                  <div className="mb-4">
-                    <FormLabel>Team Members</FormLabel>
-                    <FormDescription>
-                      Select the items you want to display in the sidebar.
-                    </FormDescription>
-                  </div>
-                  {items.map((item) => (
+                  <FormLabel className="text-base">Team Members</FormLabel>
+                  <FormDescription>
+                    Select all the members of the team.
+                  </FormDescription>
+                  {/* {users.map((user) => (
                     <FormField
-                      key={item.id}
+                      key={user.id}
                       control={form.control}
-                      name="items"
+                      name="users"
                       render={({ field }) => {
                         return (
                           <FormItem
-                            key={item.id}
+                            key={user.id}
                             className="flex flex-row items-start space-x-3 space-y-0"
                           >
                             <FormControl>
                               <Checkbox
-                                checked={field.value?.includes(item.id)}
+                                checked={field.value?.includes(user.id)}
                                 onCheckedChange={(checked) => {
-                                  console.log(item.label);
-                                  // return checked
-                                  //   ? field.onChange([...field.value, item.id])
-                                  //   : field.onChange(
-                                  //       field.value?.filter(
-                                  //         (value) => value !== item.id
-                                  //       )
-                                  //     );
+                                  return checked
+                                    ? field.onChange([...field.value, user.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== user.id
+                                        )
+                                      );
                                 }}
                               />
                             </FormControl>
                             <FormLabel className="text-sm font-normal">
-                              {item.label}
+                              {user.label}
                             </FormLabel>
                           </FormItem>
                         );
                       }}
                     />
-                  ))}
+                  ))} */}
+
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <Button className="w-full" type="submit">
               Create Workspace
             </Button>

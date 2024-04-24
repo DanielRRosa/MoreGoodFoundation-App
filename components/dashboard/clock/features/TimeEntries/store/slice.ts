@@ -36,7 +36,7 @@ export const timeEntries = createSlice({
   name: "timeEntries",
   initialState: timeEntriesInitialState,
   reducers: {
-    timeEntryAdded: (
+    timeEntryAdded: async (
       state,
       action: PayloadAction<{
         text: string;
@@ -61,9 +61,15 @@ export const timeEntries = createSlice({
         logged: false,
       };
 
-      createTimedTask({ ...newEntry });
+      try {
+        const createdTimedTask = await createTimedTask({ ...newEntry });
 
-      timeEntriesAdapter.addOne(state, newEntry);
+        if (createdTimedTask) {
+          timeEntriesAdapter.addOne(state, newEntry);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     timeEntryUpdated: timeEntriesAdapter.updateOne,

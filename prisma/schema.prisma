@@ -22,7 +22,7 @@ model User {
   lastName      String?
   fullName      String?
   createdAt     DateTime    @default(now())
-  role          Role        @unique @default(member)
+  role          Role        @default(member)
   Project       Project?    @relation(fields: [projectId], references: [id])
   projectId     String?
   Account       Account[]
@@ -68,17 +68,17 @@ model Project {
   name      String
   users     User[]
   timedTask timedTask[]
-  Team      Team?       @relation(fields: [teamId], references: [id])
-  teamId    String?
+  Team      Team        @relation(fields: [teamId], references: [id])
+  teamId    String
 }
 
 model timedTask {
-  id        String   @id @default(uuid()) @map("_id")
+  id        String    @id @default(uuid()) @map("_id")
   name      String
-  project   Project? @relation(fields: [projectId], references: [id])
-  user      User?    @relation(fields: [userId], references: [id])
-  startTime BigInt
-  stopTime  BigInt?
-  userId    String?
-  projectId String?
+  project   Project?  @relation(fields: [projectId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
+  startTime DateTime
+  stopTime  DateTime?
+  userId    String
+  projectId String
 }

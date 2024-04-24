@@ -29,7 +29,7 @@ function UserImage() {
   return (
     <div>
       <div>
-        {session?.user ? (
+        {status === "authenticated" ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

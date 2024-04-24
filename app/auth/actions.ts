@@ -1,9 +1,9 @@
 "use server";
 
-// Login Functions
 import { User } from "@prisma/client";
 import { redirect } from "next/navigation";
 
+// Login Functions
 export const login = async (values: User) => {
   try {
     console.log("Login", values);

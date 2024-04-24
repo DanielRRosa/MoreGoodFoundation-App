@@ -1,3 +1,5 @@
+"use client";
+
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Command,
@@ -21,6 +23,7 @@ const CurrentProjectEntry = ({
     { name: "Test 4" },
     { name: "Settings" },
   ];
+
   return (
     <Dialog>
       <DialogTrigger asChild>

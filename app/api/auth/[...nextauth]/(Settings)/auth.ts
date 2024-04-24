@@ -40,9 +40,11 @@ export const {
         const uniqueUser = await getUserThat({ email });
 
         session.user.id = token.sub as string;
-        session.user.firstName = uniqueUser.firstName;
-        session.user.lastName = uniqueUser.lastName;
+        session.user.firstName = uniqueUser.firstName as string;
+        session.user.lastName = uniqueUser.lastName as string;
         session.user.role = uniqueUser.role;
+
+        session.user.teamId = uniqueUser.teamId;
       }
       return session;
     },
@@ -52,16 +54,4 @@ export const {
     },
   },
   session: { strategy: "jwt" },
-  // logger: {
-  //   error(code, ...message) {
-  //     log.error(code, message);
-  //   },
-  //   warn(code, ...message) {
-  //     log.warn(code, message);
-  //   },
-  //   debug(code, ...message) {
-  //     log.debug(code, message);
-  //   },
-  // },
-  // debug: true,
 });

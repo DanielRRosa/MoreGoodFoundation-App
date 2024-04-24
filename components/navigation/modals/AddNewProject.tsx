@@ -16,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -41,9 +40,11 @@ export function AddNewProjectDialog() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    await createProject(data);
-    await getAllProjects();
+    try {
+      await createProject(data);
+    } catch (err) {
+      throw new Error("Error all create the the new project", err);
+    }
   }
 
   return (
@@ -67,14 +68,11 @@ export function AddNewProjectDialog() {
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Name</FormLabel>
-                  <FormControl className="min-w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
-                    <Input placeholder="Project name" {...field} />
+                <FormItem className="full-flex">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl className="w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
+                    <Input placeholder="Write the project name" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is the name the project will be displayed.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
