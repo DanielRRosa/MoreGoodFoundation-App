@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatElapsedTime } from "../../../utils";
 import CurrentProjectEntry from "./CurrentProjectEntry";
+import { Project } from "@prisma/client";
 
-export const NewTimeEntry = () => {
+export const NewTimeEntry = ({ projects }: { projects: Array<Project> }) => {
   const ref = useRef(null);
   const dispatch = useAppDispatch();
 
@@ -35,7 +36,10 @@ export const NewTimeEntry = () => {
     >
       <div className="full-flex p-1" ref={ref}>
         <div className="full-flex px-4">
-          <CurrentProjectEntry onSelect={(e) => setProject(e)} />
+          <CurrentProjectEntry
+            projects={projects}
+            onSelect={(e) => setProject(e)}
+          />
 
           <Input
             className="w-full rounded-lg px-3 py-2 text-base bg-transparent focus:outline-none"

@@ -1,25 +1,28 @@
 import {
   getAllAdminUsers,
-  getUserThatRole,
+  getUserByRole,
 } from "@/components/database/User/user.actions";
 import { Profile, User } from "next-auth";
 
 export const validateUser = async (profile: Profile) => {
-  // console.log("Validate User", profile);
   if (!profile.email?.endsWith("moregoodfoundation.org")) {
-    const uniqueUser = await getUserThatRole({
-      email: profile.email as string,
-      role: "admin",
-    });
+    try {
+      const uniqueUser = await getUserByRole({
+        email: profile.email as string,
+        role: "admin",
+      });
+    } catch (err) {
+      return false;
+    }
+    console.log("cheguei aqui");
 
-    if (uniqueUser) return true;
+    // const adminUsers = await getAllAdminUsers();
 
-    const adminUsers = await getAllAdminUsers();
-
-    adminUsers.map(async (adminUser) => {
-      await sendAdminAccessEmail(adminUser);
-      await sendUserRequestEmail(profile);
-    });
+    // adminUsers.map(async (adminUser) => {
+    //   await sendAdminAccessEmail(adminUser);
+    //   await sendUserRequestEmail(profile);
+    // });
+    return true;
   }
   return false;
 };

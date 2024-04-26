@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  createProject,
-  getAllProjects,
-} from "@/components/database/Project/project.actions";
+import { createProject } from "@/components/database/Project/project.actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,6 +22,7 @@ import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -35,6 +33,8 @@ const FormSchema = z.object({
 });
 
 export function AddNewProjectDialog() {
+  const [open, setOpen] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -42,13 +42,14 @@ export function AddNewProjectDialog() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       await createProject(data);
+      setOpen(false);
     } catch (err) {
       throw new Error("Error all create the the new project", err);
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="flex gap-2">
           <Plus className="size-5" />

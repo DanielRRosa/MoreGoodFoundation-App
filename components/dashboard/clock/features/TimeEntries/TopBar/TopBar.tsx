@@ -1,16 +1,23 @@
 "use client";
+
 import { useAppSelector } from "../../../hooks";
 import { selectCurrentTimeEntry } from "../store";
 import { CurrentTimeEntry } from "./CurrentTimeEntry";
 import { NewTimeEntry } from "./NewTimeEntry";
 
-export const TopBar = () => {
+export const TopBar = (projects) => {
   const currentTimeEntry = useAppSelector(selectCurrentTimeEntry);
 
   return (
     <div className="w-full">
       <div className="flex flex-col md:flex-row md:justify-between">
-        <div className="flex-1">{currentTimeEntry ? <CurrentTimeEntry currentTimeEntry={currentTimeEntry} /> : <NewTimeEntry />}</div>
+        <div className="flex-1">
+          {currentTimeEntry ? (
+            <CurrentTimeEntry currentTimeEntry={currentTimeEntry} />
+          ) : (
+            <NewTimeEntry projects={projects} />
+          )}
+        </div>
       </div>
     </div>
   );

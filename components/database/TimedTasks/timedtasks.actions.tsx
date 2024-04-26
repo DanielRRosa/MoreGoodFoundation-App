@@ -12,7 +12,7 @@ export async function createTimedTask({ ...newEntry }) {
       data: {
         id: newEntry.id,
         name: newEntry.text,
-        project: newEntry.project,
+        projectId: newEntry.project,
         startTime: newEntry.startTime,
         userId: session?.user.id,
       },

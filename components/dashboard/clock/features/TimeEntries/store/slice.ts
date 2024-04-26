@@ -56,7 +56,7 @@ export const timeEntries = createSlice({
       const newEntry: TimeEntry = {
         id: generateId(),
         text: action.payload.text,
-        project: action.payload.project,
+        project: action.payload.project as string,
         startTime: action.payload.startTime,
         logged: false,
       };

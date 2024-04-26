@@ -25,8 +25,9 @@ import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createTeam } from "@/components/database/Team/team.action";
-import { useEffect, useState } from "react";
-import { getAllUsers } from "@/components/database/User/user.actions";
+import { Checkbox } from "@/components/ui/checkbox";
+import { User } from "@prisma/client";
+import { useState } from "react";
 
 const FormSchema = z.object({
   name: z.string({
@@ -37,7 +38,8 @@ const FormSchema = z.object({
   }),
 });
 
-export function AddNewTeamDialog({users}) {
+export function AddNewTeamDialog({ users }: User) {
+  const [open, setOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,18 +47,17 @@ export function AddNewTeamDialog({users}) {
       users: [],
     },
   });
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       await createTeam(data);
-      console.log(data);
+      setOpen(false);
     } catch (err) {
-      throw new Error("Teste", err);
+      console.error("Error submiting the form", err);
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="flex gap-2">
           <Plus className="size-5" />
@@ -79,7 +80,7 @@ export function AddNewTeamDialog({users}) {
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="full-flex">
+                <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl className="w-full border border-neutral rounded-md transition-all duration-300 hover:border-primary focus:border-primary">
                     <Input placeholder="Write the workspace name" {...field} />
@@ -97,7 +98,7 @@ export function AddNewTeamDialog({users}) {
                   <FormDescription>
                     Select all the members of the team.
                   </FormDescription>
-                  {/* {users.map((user) => (
+                  {users.map((user) => (
                     <FormField
                       key={user.id}
                       control={form.control}
@@ -123,13 +124,13 @@ export function AddNewTeamDialog({users}) {
                               />
                             </FormControl>
                             <FormLabel className="text-sm font-normal">
-                              {user.label}
+                              {`${user.firstName} ${user.lastName}`}
                             </FormLabel>
                           </FormItem>
                         );
                       }}
                     />
-                  ))} */}
+                  ))}
 
                   <FormMessage />
                 </FormItem>
