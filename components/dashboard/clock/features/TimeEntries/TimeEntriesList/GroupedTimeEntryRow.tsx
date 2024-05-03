@@ -2,23 +2,14 @@
 
 import { formatElapsedTime } from "../../../utils";
 import { Play } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { TimeEntryRow } from "./TimeEntryRow";
 import { useState } from "react";
 import { TimeEntryText } from "../components/TimeEntryText";
-import { ToggleAccordionIcon } from "../../../ui/ToggleAccordionIcon";
-import { GroupedTimeEntry, timeEntryAdded } from "../store";
+// import { ToggleAccordionIcon } from "../../../ui/ToggleAccordionIcon";
 import { Button } from "@/components/ui/button";
 import { TimeReportingDialog } from "./TimeReportingDialog";
-import { RootState } from "../../../store/store";
 
-interface GroupedTimeEntryRowProps {
-  groupedTimeEntry: GroupedTimeEntry;
-}
-
-export const GroupedTimeEntryRow: React.FC<GroupedTimeEntryRowProps> = ({
-  groupedTimeEntry,
-}) => {
+export const GroupedTimeEntryRow = ({ groupedTimeEntry }) => {
   const dispatch = useAppDispatch();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isTimeReportingDialogVisible, setIsTimeReportingDialogVisible] =

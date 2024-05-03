@@ -8,14 +8,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { formatElapsedTime } from "../../../utils";
-import { useAppDispatch } from "../../../hooks";
 import { TimeEntryEdit } from "../components/TimeEntryEdit";
-import { TimeEntry, timeEntryRemoved } from "../store";
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { deleteTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
+import { deleteTimedTask } from "@/database/serverStorage/TimedTasks/timedtasks.actions";
+import { timedTask } from "@prisma/client";
 
-export const TimeEntryRow = ({ timeEntry }: { timeEntry: TimeEntry }) => {
+export const TimeEntryRow = ({ timeEntry }: { timeEntry: timedTask }) => {
   const dispatch = useAppDispatch();
 
   const [isEditVisible, setIsEditVisible] = useState(false);

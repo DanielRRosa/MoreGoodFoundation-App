@@ -1,6 +1,6 @@
 "use client";
 
-import { createProject } from "@/components/database/Project/project.actions";
+import { createProject } from "@/database/serverStorage/Project/project.actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

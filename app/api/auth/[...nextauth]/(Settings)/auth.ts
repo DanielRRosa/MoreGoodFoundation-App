@@ -1,12 +1,12 @@
 import type { Profile } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@/components/database/Database";
+import prisma from "@/database/serverStorage/Database";
 
 import { validateUser } from "./validate-actions";
 
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-import { getUserThat } from "@/components/database/User/user.actions";
+import { getUserThat } from "@/database/serverStorage/User/user.actions";
 
 export const {
   handlers: { GET, POST },

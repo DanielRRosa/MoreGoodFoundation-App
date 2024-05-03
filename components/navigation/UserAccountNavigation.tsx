@@ -1,6 +1,12 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+// Typescript types and interfaces
+import { Session } from "next-auth";
+
+// Functions
+import { signOut } from "next-auth/react";
+
+// UI Elements
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +19,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+
+// Icons
 import { ChevronDown } from "lucide-react";
 
-function UserImage() {
-  const { data: session, status } = useSession();
+export default function UserAccountNavigation({
+  session,
+}: {
+  session: Session | null;
+}) {
   const userFullName = `${session?.user?.firstName} ${session?.user?.lastName}`;
 
   const userSettingsLinks = [
@@ -29,7 +40,7 @@ function UserImage() {
   return (
     <div>
       <div>
-        {status === "authenticated" ? (
+        {session?.user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -103,5 +114,3 @@ function UserImage() {
     </div>
   );
 }
-
-export default UserImage;

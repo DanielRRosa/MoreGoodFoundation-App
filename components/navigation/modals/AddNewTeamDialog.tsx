@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createTeam } from "@/components/database/Team/team.action";
+import { createTeam } from "@/database/serverStorage/Team/team.action";
 import { Checkbox } from "@/components/ui/checkbox";
 import { User } from "@prisma/client";
 import { useState } from "react";

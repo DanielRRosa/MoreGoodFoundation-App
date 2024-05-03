@@ -1,5 +1,3 @@
-"use client";
-
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Command,
@@ -18,12 +16,10 @@ const CurrentProjectEntry = ({
   onSelect,
 }: {
   projects: Array<Project>;
-  onSelect?: ((value: string) => void) | undefined;
+  onSelect: ((selectedProject: Project) => void) | undefined; // Update the type of onSelect to accept a Project object
 }) => {
-  const { projects: receivedProjects } = projects;
-
-  if (receivedProjects == undefined) {
-    return <div>Div</div>;
+  if (!projects || projects.length === 0) {
+    return <div className="hidden"></div>;
   } else {
     return (
       <Dialog>
@@ -41,21 +37,19 @@ const CurrentProjectEntry = ({
             <CommandInput placeholder="Search your team projects" />
             <CommandList>
               <CommandEmpty>
-                No projects was found. Please search again or create a new
+                No projects were found. Please search again or create a new
                 project.
               </CommandEmpty>
-              <CommandGroup heading="Your team projects">
-                {receivedProjects.map((project: Project) => {
-                  return (
-                    <CommandItem
-                      key={project.id}
-                      className="capitalize"
-                      onSelect={onSelect}
-                    >
-                      {project.name}
-                    </CommandItem>
-                  );
-                })}
+              <CommandGroup>
+                {projects.map((project: Project) => (
+                  <CommandItem
+                    key={project.id}
+                    className="capitalize"
+                    onSelect={() => onSelect && onSelect(project)} // Pass the entire project object to onSelect
+                  >
+                    {project.name}
+                  </CommandItem>
+                ))}
               </CommandGroup>
             </CommandList>
           </Command>

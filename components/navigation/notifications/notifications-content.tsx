@@ -7,7 +7,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 
-const NotificationContent = () => {
+const NotificationContent = async () => {
   return (
     <div className="flex flex-col gap-2">
       <CommandInput placeholder="Search message" />

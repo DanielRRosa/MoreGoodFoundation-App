@@ -3,25 +3,18 @@
 import { Input } from "@/components/ui/input";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useAppDispatch } from "../../../hooks";
-import { Button } from "../../../ui/Button";
-import { Dialog, DialogContent, DialogTitle } from "../../../ui/Dialog";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   formatElapsedTime,
   formatTime,
   parseElapsedTime,
 } from "../../../utils";
 import { TimeEntryText } from "../components/TimeEntryText";
-import {
-  GroupedTimeEntry,
-  timeEntriesClearTimeReported,
-  timeEntriesTimeReported,
-} from "../store";
 
 interface Props {
   isVisible: boolean;
   setIsVisible: (state: boolean) => void;
-  groupedTimeEntry: GroupedTimeEntry;
 }
 
 export const TimeReportingDialog = ({

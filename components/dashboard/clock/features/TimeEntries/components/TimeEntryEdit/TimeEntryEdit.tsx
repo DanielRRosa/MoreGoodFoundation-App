@@ -7,14 +7,12 @@ import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { testId } from "../../../../testUtils/testId";
-import { TimeEntry, timeEntryUpdated } from "../../store";
 import { Button } from "@/components/ui/button";
 import { formatElapsedTime } from "@/components/dashboard/clock/utils";
-import { editTimedTask } from "@/components/database/TimedTasks/timedtasks.actions";
+import { editTimedTask } from "@/database/serverStorage/TimedTasks/timedtasks.actions";
 
 interface TimeEntryEditProps {
-  timeEntry: TimeEntry; 
+  timeEntry: TimeEntry;
   setIsEditVisible: (flag: boolean) => void;
 }
 
@@ -73,9 +71,7 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
           <DatePicker
             className="rounded border"
             selected={new Date(startTimeValue)}
-            onChange={(date: Date) =>
-              date && setStartTimeValue(date.getTime())
-            }
+            onChange={(date: Date) => date && setStartTimeValue(date.getTime())}
             timeInputLabel="Time:"
             dateFormat="HH:mm"
             showTimeInput
@@ -90,9 +86,7 @@ export const TimeEntryEdit: React.FC<TimeEntryEditProps> = ({
             selected={
               stopTimeValue ? new Date(stopTimeValue) : new Date(Date.now())
             }
-            onChange={(date: Date) =>
-              date && setStopTimeValue(date.getTime())
-            }
+            onChange={(date: Date) => date && setStopTimeValue(date.getTime())}
             timeInputLabel="Time:"
             dateFormat="HH:mm"
             showTimeInput

@@ -7,8 +7,6 @@ import "./globals.css";
 // Components
 import ThemeProvider from "@/components/theme/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
-import { store } from "@/components/dashboard/clock/store/store";
-import ReduxProvider from "@/components/providers/redux-provider";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
@@ -52,16 +50,14 @@ export default async function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AuthProvider>
-          <ReduxProvider store={store}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
-          </ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

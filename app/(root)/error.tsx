@@ -13,15 +13,17 @@ export default function Error({
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
       <p className="text-base">There was a problem</p>
-      <h1 className="text-5xl font-bold antialiased">{error.message}</h1>
+      <h1 className="text-5xl text-center font-bold antialiased">
+        {error.message}
+      </h1>
       <p className="text-lg">
         Please try again later or contact support if the problem persists.
       </p>
       <div className="flex flex-row gap-4">
-        <Button className="w-[160px] capitalize" onClick={reset}>
+        <Button className="capitalize" size="lg" onClick={reset}>
           Try again
         </Button>
-        <Button asChild variant="outline" className="w-[160px]">
+        <Button asChild variant="outline" size="lg">
           <Link href="/dashboard" className="capitalize">
             Go to dashboard
           </Link>

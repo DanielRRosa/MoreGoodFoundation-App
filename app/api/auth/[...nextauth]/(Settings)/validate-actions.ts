@@ -1,7 +1,7 @@
 import {
   getAllAdminUsers,
   getUserByRole,
-} from "@/components/database/User/user.actions";
+} from "@/database/serverStorage/User/user.actions";
 import { Profile, User } from "next-auth";
 
 export const validateUser = async (profile: Profile) => {

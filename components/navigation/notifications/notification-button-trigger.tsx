@@ -11,11 +11,15 @@ import { Command } from "@/components/ui/command";
 import NotificationContent from "./notifications-content";
 
 const NotificationButton = () => {
+  const notification = "REPLACE";
+
   return (
     <Popover>
       <PopoverTrigger className="cursor-pointer" asChild>
         <Button variant="ghost" size="icon" title="Notifications">
-          <div className="size-3 bg-blue-600 rounded-full absolute translate-x-[8px] translate-y-[-8px]"></div>
+          {notification && (
+            <div className="size-3 bg-primary rounded-full absolute translate-x-2 translate-y-[-8px]"></div>
+          )}
           <Bell className="size-5" />
         </Button>
       </PopoverTrigger>

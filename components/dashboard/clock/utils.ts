@@ -9,10 +9,10 @@ export const formatElapsedTime = (timeDiff) => {
   const minutes = Math.round(timeDiff % 60);
   timeDiff /= 60;
   const hours = Math.round(timeDiff);
-  return `${addLeadingZeros(hours, 2)}:${addLeadingZeros(
+  return `${addLeadingZeros(hours, 2)} : ${addLeadingZeros(
     minutes,
-    2,
-  )}:${addLeadingZeros(seconds, 2)}`;
+    2
+  )} : ${addLeadingZeros(seconds, 2)}`;
 };
 
 export const parseElapsedTime = (timeString) => {

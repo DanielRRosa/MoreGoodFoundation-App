@@ -65,10 +65,22 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border bg-clip-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  p,
+  span,
+  div,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-base text-balance leading-6;
   }
 
   /* Flex CSS Properties */

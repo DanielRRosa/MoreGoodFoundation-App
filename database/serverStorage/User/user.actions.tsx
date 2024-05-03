@@ -10,12 +10,11 @@ export async function getAllAdminUsers() {
       role: "admin",
     },
   });
-  console.log(users);
   return users;
 }
 
 // General Users Functions
-export async function getUserThatRole({
+export async function getUserByRole({
   email,
   role,
 }: {
@@ -41,11 +40,6 @@ export async function getUserThat({ email }: { email: string }) {
 }
 
 export async function getAllUsers() {
-  const users: User = await prisma.user.findMany({
-    where: {
-      role: "admin",
-    },
-  });
-  console.log(users);
+  const users: User = await prisma.user.findMany();
   return users;
 }

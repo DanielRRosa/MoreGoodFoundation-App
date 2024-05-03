@@ -13,7 +13,7 @@ generator client {
 
 model User {
   id            String      @id @default(uuid()) @map("_id")
-  provider      String?
+  provider      String
   email         String      @unique
   emailVerified Boolean?
   image         String?
@@ -28,6 +28,8 @@ model User {
   timedTask     timedTask[]
   Team          Team?       @relation(fields: [teamId], references: [id])
   teamId        String?
+
+  isAuthorized Boolean @default(false)
 }
 
 enum Role {
@@ -68,17 +70,18 @@ model Project {
   timedTask timedTask[]
   Team      Team        @relation(fields: [teamId], references: [id])
   teamId    String
-  User      User?       @relation(fields: [userId], references: [id])
-  userId    String?
+  User      User        @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 model timedTask {
-  id        String    @id @default(uuid()) @map("_id")
-  name      String
-  project   Project?  @relation(fields: [projectId], references: [id])
-  user      User?     @relation(fields: [userId], references: [id])
-  startTime DateTime
-  stopTime  DateTime?
-  userId    String
-  projectId String
+  id          String    @id @default(uuid()) @map("_id")
+  name        String
+  project     Project   @relation(fields: [projectId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  createdTime DateTime  @default(now())
+  startTime   DateTime
+  stopTime    DateTime?
+  userId      String
+  projectId   String
 }
